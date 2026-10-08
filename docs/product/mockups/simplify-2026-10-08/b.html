@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B · 매니저와 대화 한 줄</title>
+<meta name="color-scheme" content="light dark">
+<script>{ const t = new URLSearchParams(location.search).get('theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; }</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/web/css/base.css">
+<link rel="stylesheet" href="/web/css/screens.css">
+<link rel="stylesheet" href="/web/css/office3d.css">
+<link rel="stylesheet" href="/web/css/agentops.css">
+<link rel="stylesheet" href="common.css">
+<script type="importmap">
+{ "imports": { "preact": "/node_modules/preact/dist/preact.mjs", "preact/hooks": "/node_modules/preact/hooks/dist/hooks.mjs", "htm": "/node_modules/htm/dist/htm.module.js", "three": "/node_modules/three/build/three.module.js", "three/addons/": "/node_modules/three/examples/jsm/" } }
+</script>
+<style>
+/* B — 매니저 미나와의 대화 한 줄. 결과물 · 질문 · 승인 요청이 대화 속에 하나씩 들어온다 */
+body { background: var(--surface); }
+.b-app { height: 100vh; height: 100dvh; display: flex; flex-direction: column; }
+/* 위 — 접히는 작은 3D 사무실 창(가로 띠) */
+.b-office { position: relative; flex: none; height: 230px; overflow: hidden; background: linear-gradient(180deg, var(--stage-sky-1), var(--stage-sky-2)); transition: height .25s ease; }
+.b-office.shut { height: 0; }
+.b-office .o3-tags .ntag .pill, .b-office .o3-flag, .b-office .o-bubble { display: none; }
+.b-office .ntag { font-size: var(--fs-2); }
+.b-fallback { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* 대화 머리 — 이름 한 줄 */
+.b-head { flex: none; display: flex; align-items: center; gap: 14px; padding: 12px 28px; border-bottom: 1px solid var(--line); }
+.b-head .who b { font-size: var(--fs-6); font-weight: var(--fw-3); }
+.b-head .who span { color: var(--ink-3); font-size: var(--fs-3); margin-left: 8px; }
+.b-head .co { margin-left: auto; color: var(--ink-2); font-size: var(--fs-3); }
+.b-head .tog { color: var(--ink-2); }
+/* 대화 */
+.b-log { flex: 1; overflow: auto; }
+.b-col { max-width: 760px; margin: 0 auto; padding: 24px 28px 32px; display: flex; flex-direction: column; gap: 22px; }
+.b-day { display: flex; align-items: center; gap: 12px; color: var(--ink-3); font-size: var(--fs-2); font-weight: var(--fw-2); }
+.b-day::before, .b-day::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+.m { display: flex; flex-direction: column; gap: 8px; max-width: 640px; }
+.m .meta { display: flex; gap: 8px; align-items: baseline; font-size: var(--fs-3); }
+.m .meta b { font-weight: var(--fw-3); }
+.m .meta time { color: var(--ink-3); font-size: var(--fs-2); }
+.m p { font-size: var(--fs-5); line-height: 1.65; }
+.m.me { align-self: flex-end; align-items: flex-end; }
+.m.me p { background: var(--accent); color: var(--on-accent); padding: 9px 14px; border-radius: 16px 16px 4px 16px; }
+.ev { display: flex; align-items: center; gap: 8px; color: var(--ink-3); font-size: var(--fs-3); padding-left: 2px; }
+.ev .pill { font-size: var(--fs-1); }
+/* 대화 속 결과물 — 상자가 아니라 왼쪽 선 하나로 들여 쓴다 */
+.att { border-left: 3px solid var(--line-2); padding: 4px 0 4px 18px; display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+.att.mine { border-left-color: var(--decide); }
+.att h3 { font-size: var(--fs-6); color: var(--ink); font-weight: var(--fw-3); }
+.att .q { font-size: var(--fs-7); font-weight: var(--fw-3); letter-spacing: -.02em; line-height: 1.4; }
+.att .why { color: var(--ink-2); font-size: var(--fs-4); }
+.att .acts { display: flex; gap: 8px; flex-wrap: wrap; }
+.att .was { color: var(--ink-3); font-size: var(--fs-4); display: flex; gap: 6px; align-items: center; }
+.att .was .ico { color: var(--ok); }
+.att.done { border-left-color: var(--line); }
+/* 입력 */
+.b-input { flex: none; border-top: 1px solid var(--line); background: var(--surface); }
+.b-input form { max-width: 760px; margin: 0 auto; padding: 12px 28px 16px; display: flex; gap: 10px; align-items: center; }
+.b-input input { flex: 1; border: 0; background: var(--surface-2); border-radius: var(--r-pill); padding: 12px 18px; font-size: var(--fs-5); color: var(--ink); }
+.b-input input:focus { outline: 2px solid var(--line-2); }
+.b-input .btn { border-radius: var(--r-pill); padding: 11px 16px; }
+.b-input .hint { display: flex; gap: 6px; max-width: 760px; margin: 0 auto; padding: 0 28px; overflow-x: auto; }
+.b-input .hint button { border: 0; background: none; color: var(--ink-2); font-size: var(--fs-3); padding: 10px 0 0; margin-right: 14px; white-space: nowrap; text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 4px; }
+.typing { color: var(--ink-3); font-size: var(--fs-3); }
+@media (max-width: 760px) {
+  .b-office { height: 170px; }
+  .b-head { padding: 10px 16px; gap: 10px; }
+  .b-head .who span { display: block; margin: 0; font-size: var(--fs-2); }
+  .b-head .co { display: none; }
+  .b-head .tog { margin-left: auto; }
+  .b-col { padding: 18px 16px 24px; gap: 18px; }
+  .att .q { font-size: var(--fs-6); }
+  .att { padding-left: 14px; }
+  .b-input form { padding: 10px 16px 14px; }
+  .b-input .hint { padding: 0 16px; }
+  .b-input .btn .lb { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="b-app">
+  <div class="b-office" id="office"><div class="o3-canvas" id="host"></div><div class="o3-tags" id="tags"></div></div>
+  <div class="b-head">
+    <div class="who"><b>미나</b><span>매니저 : 계획 · 조율 담당</span></div>
+    <span class="co">골목커피 · 10월 2주차</span>
+    <button class="btn quiet sm tog" id="tog">사무실 접기</button>
+  </div>
+  <div class="b-log" id="log"><div class="b-col" id="col"></div></div>
+  <div class="b-input">
+    <div class="hint" id="hint"><button>이번 주 진행 알려 줘</button><button>원가표 다시 보여 줘</button><button>문서 모아 보기</button></div>
+    <form id="form"><input id="in" placeholder="미나에게 말하기" autocomplete="off" aria-label="미나에게 말하기"><button class="btn pri" type="submit"><span data-ic="send"></span><span class="lb">보내기</span></button></form>
+  </div>
+</div>
+
+<section class="sx-memo" id="memo"><div>
+  <span class="sx-eyebrow">견본 B</span>
+  <h2>매니저와 대화 한 줄</h2>
+  <p class="lead">화면은 매니저 미나와의 대화 하나예요. 결과물 · 질문 · 승인 요청이 미나의 말 속에 하나씩 들어오고, 대표님은 그 자리에서 눌러 끝내거나 말로 시켜요. 위쪽 작은 사무실 창은 web/js/office3d를 그대로 불렀고 접을 수 있어요.</p>
+  <div class="counts"><div><b>1</b><span>화면(대화 하나)</span></div><div><b>0</b><span>메뉴 · 탭 · 숫자 카드</span></div><div><b>1</b><span>상대 — 매니저만</span></div></div>
+  <table>
+    <thead><tr><th>숨긴 것</th><th>옮긴 곳</th></tr></thead>
+    <tbody>
+      <tr><td>메뉴 5개(사무실 · 결정함 · 일 · 회사 · 설정)</td><td>대화 하나로. 다른 화면은 아래 말 줄('문서 모아 보기')이나 말로 부름</td></tr>
+      <tr><td>결정함 · 등급 세 개</td><td>미나의 말 속 인주색 선 하나 = 대표님 차례. 밖으로 나가는 글만 '원문 확인 → 승인' 두 단계</td></tr>
+      <tr><td>회차 · 블록 · 할 일 띠 · 수치 카드</td><td>'이번 주 진행 알려 줘'에 미나가 말로 답함. 화면에 늘 띄우지 않음</td></tr>
+      <tr><td>직원별 화면 · 직원과 대화</td><td>미나가 대신 전함 — 레오 · 하나 소식은 대화 속 회색 한 줄</td></tr>
+      <tr><td>3D 사무실 전체 화면</td><td>위쪽 접히는 창. 누르면 사무실 화면으로(제안)</td></tr>
+    </tbody>
+  </table>
+  <p class="lead" style="margin-top:20px">주의: 대화형은 요즘 AI 서비스(대화창)와 가장 닮아 결정 86의 '보이는 화면' 쪽 차별이 약해요. 3D 창을 접으면 다른 메신저와 같아져요.</p>
+  <nav><a href="index.html">네 개 비교</a><a href="a.html">A 사무실</a><a href="b.html" class="on">B 대화</a><a href="c.html">C 오늘 할 일</a><a href="d.html">D 문서</a></nav>
+</div></section>
+
+<script type="module">
+import { SCENE, ic, esc, costTable, mountOffice, officeView } from './kit.js';
+for (const el of document.querySelectorAll('[data-ic]')) el.innerHTML = ic(el.dataset.ic, 18);
+
+const st = { ask: null, cost: null, costFix: false, post: 0, extra: [] };
+const col = document.getElementById('col'), log = document.getElementById('log');
+
+const mina = (time, body, att = '') => `<div class="m"><div class="meta"><b>미나</b><time>${time}</time></div>${body}${att}</div>`;
+const me = (text) => `<div class="m me"><p>${esc(text)}</p></div>`;
+const ev = (text, s, w) => `<div class="ev">${text}${s ? `<span class="pill ${s}">${w}</span>` : ''}</div>`;
+const was = (t) => `<p class="was">${ic('check', 16)}${esc(t)}</p>`;
+
+function costAtt() {
+  if (st.cost) return `<div class="att done"><h3>메뉴 원가표</h3>${was(st.cost === 'ok' ? '확정했어요' : '고칠 점을 보냈어요')}</div>`;
+  return `<div class="att mine"><span class="sx-eyebrow mine">${ic('decisions', 14)}확인</span><h3>메뉴 원가표</h3>${costTable()}
+    <div class="acts"><button class="btn decide" data-cost="ok">이대로 OK</button><button class="btn" data-cost="fix">고쳐 주세요</button></div></div>`;
+}
+function askAtt() {
+  const a = SCENE.ask;
+  if (st.ask) return `<div class="att done">${was(`답했어요 — ${a.options.find((o) => o.key === st.ask).label}`)}</div>`;
+  return `<div class="att mine"><span class="sx-eyebrow mine">${ic('question', 14)}질문</span><p class="q">${esc(a.text)}</p><p class="why">${esc(a.why)}</p>
+    <div class="acts">${a.options.map((o) => `<button class="btn" data-ask="${o.key}">${esc(o.label)}</button>`).join('')}</div></div>`;
+}
+function postAtt() {
+  const p = SCENE.post, s = st.post;
+  if (s >= 2) return `<div class="att done"><h3>${esc(p.title)}</h3>${was('승인했어요 — 연습 게시로 올렸어요(실제로 나가지 않음)')}</div>`;
+  const steps = `<div class="sx-steps"><b class="${s === 0 ? 'on' : 'done'}">1 원문 확인</b><i></i><b class="${s === 1 ? 'on' : ''}">2 승인</b></div>`;
+  return `<div class="att mine"><span class="sx-eyebrow mine">${ic('send', 14)}밖으로 나가는 글 · ${esc(p.where)}</span><h3>${esc(p.title)}</h3>${steps}<blockquote class="sx-quote">${esc(p.text)}</blockquote>
+    ${s === 0 ? `<div class="acts"><button class="btn decide" data-post="read">원문 그대로 확인했어요</button><button class="btn" data-post="fix">고쳐 주세요</button></div>`
+      : `<p class="why">이 글자 그대로 나가요. 승인하면 연습 게시로 올라가요.</p><div class="acts"><button class="btn decide" data-post="ok">승인하기</button><button class="btn quiet" data-post="back">다시 읽기</button></div>`}</div>`;
+}
+
+function render(scroll = false) {
+  col.innerHTML = [
+    `<div class="b-day">10월 2주차 · 월요일</div>`,
+    mina('09:02', `<p>대표님, 이번 주 일을 나눴어요. 레오는 상권 조사, 하나는 가게 소개 문구, 저는 메뉴 원가표를 맡아요.</p>`),
+    ev(`레오가 상권 조사를 시작했어요`, 'st-working', '일하는 중'),
+    mina('10:40', `<p>원가표 초안이 나왔어요. 재료 · 포장 · 수수료 세 줄이에요.</p>`, costAtt()),
+    st.cost ? me(st.cost === 'ok' ? '이대로 좋아요.' : '우유 값을 1L 2,800원으로 고쳐 주세요.') + mina('방금', `<p>${st.cost === 'ok' ? '확정했어요. 문서에 넣어 둘게요.' : '고쳐서 다시 올릴게요.'}</p>`) : '',
+    mina('10:41', `<p>한 가지 여쭤볼게요.</p>`, askAtt()),
+    st.ask ? me(SCENE.ask.options.find((o) => o.key === st.ask).label) + mina('방금', `<p>${esc(SCENE.ask.options.find((o) => o.key === st.ask).reply)}</p>`) : '',
+    mina('11:15', `<p>하나가 가게 소개 문구를 썼어요. 밖으로 나가는 글이라 원문을 먼저 봐 주세요.</p>`, postAtt()),
+    st.post >= 2 ? me('승인할게요.') + mina('방금', `<p>연습 게시로 올렸어요. 승인한 원문은 그대로 고정돼요.</p>`) : '',
+    ev(`레오 — ${esc(SCENE.research.now)}`, 'st-working', '일하는 중'),
+    ...st.extra,
+  ].join('');
+  if (scroll) log.scrollTop = log.scrollHeight;
+  office?.update(officeView(crew()));
+}
+const crew = () => [
+  { id: 'mina', status: !st.ask || !st.cost ? 'me' : 'working', statusLabel: '', mode: !st.ask || !st.cost ? 'raise' : 'type' },
+  { id: 'leo', status: 'working', statusLabel: '일하는 중', mode: 'read' },
+  { id: 'hana', status: st.post < 2 ? 'me' : 'done', statusLabel: '', mode: st.post < 2 ? 'idle' : 'type' },
+];
+
+col.addEventListener('click', (e) => {
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.cost) st.cost = t.dataset.cost;
+  if (t.dataset.ask) st.ask = t.dataset.ask;
+  if (t.dataset.post === 'read') st.post = 1;
+  if (t.dataset.post === 'back') st.post = 0;
+  if (t.dataset.post === 'ok') st.post = 2;
+  if (t.dataset.post === 'fix') { st.extra.push(me('소개 문구에서 "이름을 불러 드려요"는 빼 주세요.'), mina('방금', '<p>하나에게 전할게요. 고친 원문이 오면 다시 보여 드릴게요.</p>')); }
+  render(true);
+});
+function say(text) {
+  st.extra.push(me(text)); render(true);
+  setTimeout(() => {
+    const left = [!st.ask && '질문 하나', !st.cost && '원가표 확인', st.post < 2 && '소개 문구 승인'].filter(Boolean);
+    const reply = /진행/.test(text) ? `이번 주 일 3개 중 ${(st.cost === 'ok') + (st.post >= 2)}개가 끝났어요. 대표님 차례는 ${left.length ? left.join(' · ') + '예요' : '없어요'}. 레오는 ${SCENE.research.eta}까지 상권 조사를 넘겨요.`
+      : /원가표/.test(text) ? '위 10:40에 있어요. 바뀐 게 생기면 새로 올려 드릴게요.'
+        : /문서/.test(text) ? '이번 주 문서는 넷이에요 — 메뉴 원가표 · 상권 조사 메모 · 가게 소개 문구 · 이번 달 실행 계획.'
+          : '알겠어요. 팀에 나눠서 진행할게요.';
+    st.extra.push(mina('방금', `<p>${esc(reply)}</p>`)); render(true);
+  }, 600);
+}
+document.getElementById('form').addEventListener('submit', (e) => { e.preventDefault(); const i = document.getElementById('in'); if (i.value.trim()) say(i.value.trim()); i.value = ''; });
+document.getElementById('hint').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) say(b.textContent); });
+document.getElementById('tog').addEventListener('click', (e) => { const o = document.getElementById('office'); o.classList.toggle('shut'); e.target.textContent = o.classList.contains('shut') ? '사무실 보기' : '사무실 접기'; });
+
+let office = null;
+mountOffice(document.getElementById('host'), document.getElementById('tags'), { stage: 1 }).then((h) => {
+  if (!h) { const img = document.createElement('img'); img.className = 'b-fallback'; img.alt = '사무실(스크린샷)'; img.src = '/docs/product/qa/shots-2026-10-08-brand4/office-1440-낮-밝게.jpg'; document.getElementById('office').prepend(img); document.body.dataset.office = 'shot'; return; }
+  office = h; document.body.dataset.office = 'live';
+  const v = officeView(crew()); h.update(v); h.home(v.employees); h.frameDesks(1.35);
+});
+render();
+</script>
+</body>
+</html>

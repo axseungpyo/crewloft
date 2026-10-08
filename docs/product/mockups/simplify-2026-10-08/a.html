@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · 사무실이 화면 전체</title>
+<meta name="color-scheme" content="light dark">
+<script>{ const t = new URLSearchParams(location.search).get('theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; }</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/web/css/base.css">
+<link rel="stylesheet" href="/web/css/screens.css">
+<link rel="stylesheet" href="/web/css/office3d.css">
+<link rel="stylesheet" href="/web/css/agentops.css">
+<link rel="stylesheet" href="common.css">
+<script type="importmap">
+{ "imports": { "preact": "/node_modules/preact/dist/preact.mjs", "preact/hooks": "/node_modules/preact/hooks/dist/hooks.mjs", "htm": "/node_modules/htm/dist/htm.module.js", "three": "/node_modules/three/build/three.module.js", "three/addons/": "/node_modules/three/examples/jsm/" } }
+</script>
+<style>
+/* A — 3D 사무실이 화면 전체. 떠 있는 것은 셋뿐: 위 이름 줄 · 메뉴 · 아래 한 줄(+ 열면 시트) */
+.a-stage { position: relative; height: 100vh; height: 100dvh; overflow: hidden; background: linear-gradient(180deg, var(--stage-sky-1), var(--stage-sky-2)); }
+.a-fallback { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.a-top { position: absolute; z-index: 6; top: 0; left: 0; right: 0; display: flex; align-items: flex-start; gap: 24px; padding: 22px 28px 40px; pointer-events: none;
+  background: linear-gradient(180deg, rgb(var(--surface-rgb) / .78), rgb(var(--surface-rgb) / 0)); }
+.a-top > * { pointer-events: auto; }
+.a-id b { display: block; font-size: var(--fs-7); font-weight: var(--fw-3); letter-spacing: -.02em; line-height: 1.2; }
+.a-id span { color: var(--ink-2); font-size: var(--fs-4); }
+.a-nav { margin-left: auto; display: flex; gap: 4px; }
+.a-nav button { display: inline-flex; align-items: center; gap: 8px; border: 0; background: none; padding: 8px 14px; font-size: var(--fs-5); color: var(--ink-2); border-radius: var(--r-sm); }
+.a-nav button:hover { color: var(--ink); }
+.a-nav button.on { color: var(--ink); font-weight: var(--fw-2); box-shadow: inset 0 -2px 0 var(--ink); border-radius: 0; }
+.a-nav .n { font-weight: var(--fw-3); color: var(--decide-text); }
+.a-nav .n:empty { display: none; }
+.a-team { position: absolute; z-index: 5; left: 28px; bottom: 24px; display: flex; align-items: center; gap: 10px; margin: 0; font-size: var(--fs-4); color: var(--ink); text-shadow: 0 0 12px rgb(var(--surface-rgb)), 0 0 4px rgb(var(--surface-rgb)); }
+.a-team .dot { width: 8px; height: 8px; border-radius: var(--r-pill); background: var(--info); flex: none; }
+/* 3D 위 말풍선 — 대표가 볼 것만, 인주색. 누르면 시트 */
+.a-stage .o-bubble { cursor: pointer; background: var(--decide); color: var(--on-decide); border: 0; font-size: var(--fs-3); font-weight: var(--fw-2); padding: 7px 12px; border-radius: var(--r-pill); box-shadow: 0 6px 18px rgb(var(--shadow-rgb) / .22); white-space: nowrap; max-width: none; }
+.a-stage .o-bubble:hover { background: var(--decide-text); }
+.a-stage .o3-flag, .a-stage .ntag .pill { display: none; }
+.a-stage .ntag { font-size: var(--fs-3); }
+/* 아래에서 올라오는 시트 */
+.a-sheet { position: absolute; z-index: 20; left: 50%; bottom: 0; width: min(760px, 100%); max-height: 66vh; overflow: auto; transform: translate(-50%, 0); background: var(--surface); color: var(--ink);
+  border-radius: 16px 16px 0 0; box-shadow: 0 -20px 60px rgb(var(--shadow-rgb) / .22); padding: 10px 36px 32px; transition: transform .28s ease; }
+.a-sheet.off { transform: translate(-50%, 105%); pointer-events: none; }
+.a-sheet .grip { display: block; width: 40px; height: 4px; border-radius: var(--r-pill); background: var(--line-2); margin: 0 auto 14px; border: 0; padding: 0; }
+.a-sheet header { display: flex; align-items: baseline; gap: 12px; padding-bottom: 14px; }
+.a-sheet header h2 { font-size: var(--fs-8); }
+.a-sheet header .close { margin-left: auto; }
+.a-sec { padding: 22px 0 6px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 14px; }
+.a-sec h3 { font-size: var(--fs-7); color: var(--ink); font-weight: var(--fw-3); letter-spacing: -.02em; line-height: 1.4; }
+.a-sec .why { color: var(--ink-2); font-size: var(--fs-4); }
+.a-sec .acts { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 4px; }
+.a-sec .acts .btn { font-size: var(--fs-4); padding: 10px 18px; }
+.a-sec .was { color: var(--ink-3); font-size: var(--fs-4); display: flex; gap: 8px; align-items: center; }
+.a-sec .was .ico { color: var(--ok); }
+.a-sec textarea { border: 0; border-bottom: 1px solid var(--line-2); background: transparent; padding: 8px 0; font-size: var(--fs-5); resize: none; min-height: 64px; color: var(--ink); }
+.a-sec textarea:focus { outline: none; border-color: var(--ink); }
+.a-list { list-style: none; margin: 0; padding: 0; }
+.a-list li { border-top: 1px solid var(--line); }
+.a-list button { width: 100%; display: flex; align-items: center; gap: 14px; padding: 16px 0; border: 0; background: none; text-align: left; }
+.a-list button:hover b { text-decoration: underline; }
+.a-list b { font-size: var(--fs-6); font-weight: var(--fw-2); }
+.a-list .sx-who { min-width: 44px; }
+.a-list .go { margin-left: auto; color: var(--ink-3); display: inline-flex; }
+.a-list .mine { color: var(--decide-text); font-size: var(--fs-2); font-weight: var(--fw-2); }
+.a-next { margin: 4px 0 0; padding-top: 14px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: var(--fs-3); }
+.a-empty { padding: 28px 0; font-size: var(--fs-6); color: var(--ink-2); border-top: 1px solid var(--line); }
+.a-toast { position: absolute; z-index: 30; left: 50%; top: 92px; transform: translateX(-50%); background: rgb(var(--hud-rgb) / .9); color: var(--on-hud); padding: 9px 16px; border-radius: var(--r-pill); font-size: var(--fs-3); opacity: 0; transition: opacity .2s; pointer-events: none; white-space: nowrap; }
+.a-toast.on { opacity: 1; }
+.a-memo-link { position: absolute; z-index: 5; right: 28px; bottom: 22px; font-size: var(--fs-3); color: var(--ink-2); text-shadow: 0 0 10px rgb(var(--surface-rgb)); }
+@media (max-width: 760px) {
+  .a-top { padding: 16px 16px 32px; }
+  .a-id b { font-size: var(--fs-6); }
+  .a-id span { font-size: var(--fs-3); }
+  .a-nav { position: fixed; z-index: 25; left: 0; right: 0; bottom: 0; margin: 0; gap: 0; background: var(--surface); border-top: 1px solid var(--line); padding: 6px 8px calc(6px + env(safe-area-inset-bottom)); }
+  .a-nav button { flex: 1; flex-direction: column; gap: 2px; font-size: var(--fs-2); padding: 6px 4px; position: relative; }
+  .a-nav button.on { box-shadow: none; }
+  .a-nav button .ico { width: 22px; height: 22px; }
+  .a-nav .n { position: absolute; top: 2px; left: calc(50% + 8px); font-size: var(--fs-2); }
+  .a-nav button .lb { white-space: nowrap; }
+  .a-team { left: 16px; right: 16px; bottom: 76px; font-size: var(--fs-3); }
+  .a-memo-link { display: none; }
+  .a-sheet { padding: 8px 18px 28px; max-height: 82vh; border-radius: 14px 14px 0 0; }
+  .a-sheet header h2 { font-size: var(--fs-7); }
+  .a-sec h3 { font-size: var(--fs-6); }
+  .a-stage .o-bubble { font-size: var(--fs-2); padding: 5px 10px; }
+}
+@media (min-width: 761px) { .a-nav .ico { display: none; } }
+/* 어둡게 — 위 이름 줄의 바랜 띠만 어두운 면으로 */
+:root[data-theme="dark"] .a-top { background: linear-gradient(180deg, rgb(var(--hud-rgb) / .8), rgb(var(--hud-rgb) / 0)); }
+:root[data-theme="dark"] .a-team, :root[data-theme="dark"] .a-memo-link { text-shadow: 0 0 12px rgb(var(--hud-rgb)), 0 0 4px rgb(var(--hud-rgb)); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .a-top { background: linear-gradient(180deg, rgb(var(--hud-rgb) / .8), rgb(var(--hud-rgb) / 0)); }
+  :root:not([data-theme="light"]) .a-team, :root:not([data-theme="light"]) .a-memo-link { text-shadow: 0 0 12px rgb(var(--hud-rgb)), 0 0 4px rgb(var(--hud-rgb)); }
+}
+</style>
+</head>
+<body>
+<main class="a-stage" id="stage">
+  <div class="o3-canvas" id="host"></div><div class="o3-tags" id="tags"></div>
+  <header class="a-top">
+    <div class="a-id"><b>골목커피</b><span>10월 2주차</span></div>
+    <nav class="a-nav" aria-label="메뉴">
+      <button data-nav="office" class="on"><span data-ic="office"></span><span class="lb">사무실</span></button>
+      <button data-nav="todo"><span data-ic="decisions"></span><span class="lb">확인할 것</span><span class="n" id="navN"></span></button>
+      <button data-nav="docs"><span data-ic="note"></span><span class="lb">문서</span></button>
+    </nav>
+  </header>
+  <p class="a-team" id="team"></p>
+  <a class="a-memo-link" href="#memo">견본 메모 ↓</a>
+  <section class="a-sheet off" id="sheet" aria-live="polite"></section>
+  <div class="a-toast" id="toast"></div>
+</main>
+
+<section class="sx-memo" id="memo"><div>
+  <span class="sx-eyebrow">견본 A · 추천안</span>
+  <h2>사무실이 화면 전체</h2>
+  <p class="lead">처음 열면 사무실만 보여요. 대표님이 볼 것은 직원 머리 위 인주색 말풍선뿐이고, 누르면 아래에서 얇은 시트가 올라와 거기서 끝내요. 3D는 web/js/office3d를 그대로 불러 그렸어요(작은 사무실 · 레벨 1).</p>
+  <div class="counts"><div><b>3</b><span>메뉴(지금 5)</span></div><div><b>2</b><span>첫 화면 개념 — 사무실 · 말풍선</span></div><div><b>0</b><span>탭 · 숫자 카드</span></div></div>
+  <table>
+    <thead><tr><th>숨긴 것</th><th>옮긴 곳</th></tr></thead>
+    <tbody>
+      <tr><td>결정함 · 등급 세 개(사무실 안 · 방향 · 밖으로)</td><td>말풍선 하나 = 할 일 하나. 등급은 시트 안 행동으로만 드러나요 — 밖으로 나가는 글만 '원문 확인 → 승인' 두 단계(결정 80 그대로)</td></tr>
+      <tr><td>회차 · 블록 · 할 일 띠(아래 도크)</td><td>'문서' 메뉴의 목록 한 줄씩. 3D 사무실 안 회차 보드에는 그대로 있어요</td></tr>
+      <tr><td>되묻는 중 깃발 · 상태 칩 · 레벨 · 신뢰/원고 수치</td><td>되묻기는 말풍선 → 시트 첫 줄 '질문'. 레벨 · 실적은 3D 안 건물 표지와 시설로만</td></tr>
+      <tr><td>줌 사다리 · 돌리기 · 자동 · 미니 · 배치 도구 막대</td><td>손가락 · 휠 조작만 남기고 숨김. 필요하면 '사무실' 메뉴를 한 번 더 누를 때 펼치는 자리로(제안)</td></tr>
+      <tr><td>회사 · 설정 메뉴</td><td>회사 이름(왼쪽 위)을 누르면 여는 자리로(제안)</td></tr>
+      <tr><td>인계 메모 다섯 칸</td><td>대표 화면에서는 뺌. 직원 이름을 누른 시트의 '어떻게 넘겼나' 접힌 줄로(제안)</td></tr>
+    </tbody>
+  </table>
+  <nav><a href="index.html">네 개 비교</a><a href="a.html" class="on">A 사무실</a><a href="b.html">B 대화</a><a href="c.html">C 오늘 할 일</a><a href="d.html">D 문서</a><a href="a.html?theme=dark">A 어둡게</a></nav>
+</div></section>
+
+<script type="module">
+import { SCENE, ic, esc, costTable, mountOffice, officeView } from './kit.js';
+for (const el of document.querySelectorAll('[data-ic]')) el.innerHTML = ic(el.dataset.ic, 18);
+
+const P = SCENE.people;
+const st = { ask: null, cost: null, costFix: false, post: 0, nav: 'office', open: null };
+const pending = () => [
+  !st.ask && { key: 'ask', who: 'mina', label: '미나가 묻고 있어요', title: '(가정) 표시 문장, 그대로 써도 될까요?' },
+  !st.cost && { key: 'cost', who: 'mina', label: '확인', title: '메뉴 원가표' },
+  st.post < 2 && { key: 'post', who: 'hana', label: '밖으로 나가는 글', title: '가게 소개 문구' },
+].filter(Boolean);
+
+/** 3D에 넘길 사람 상태 — 상태 낱말 여섯 개 중에서 */
+function crew() {
+  const mPend = !st.ask || !st.cost;
+  return [
+    { id: 'mina', status: mPend ? 'me' : 'working', statusLabel: mPend ? '대표 확인' : '일하는 중', mode: mPend ? 'raise' : 'type', bubble: !st.ask ? '물어볼 게 있어요' : !st.cost ? '원가표 봐 주세요' : null },
+    { id: 'leo', status: 'working', statusLabel: '일하는 중', mode: 'read', task: '상권 조사' },
+    { id: 'hana', status: st.post < 2 ? 'me' : 'done', statusLabel: st.post < 2 ? '대표 확인' : '끝', mode: st.post < 2 ? 'idle' : 'type', bubble: st.post < 2 ? '소개 문구 봐 주세요' : null },
+  ];
+}
+
+let office = null;
+const stage = document.getElementById('stage'), sheet = document.getElementById('sheet');
+function toast(t) { const el = document.getElementById('toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2200); }
+
+function render() {
+  const n = pending().length;
+  document.getElementById('navN').textContent = n || '';
+  for (const b of document.querySelectorAll('[data-nav]')) b.classList.toggle('on', b.dataset.nav === (st.open && !st.open.startsWith('person') ? st.open : 'office'));
+  document.getElementById('team').innerHTML = `<span class="dot"></span>팀은 지금 — 레오는 상권 조사 중${st.cost ? ' · 미나는 다음 주 계획을 짜는 중' : ''}${n ? '' : ' · 대표님이 볼 것은 다 끝났어요'}`;
+  office?.update(officeView(crew(), { decisions: n }));
+  renderSheet();
+}
+
+function sec(inner) { return `<div class="a-sec">${inner}</div>`; }
+function askSec() {
+  const a = SCENE.ask;
+  if (st.ask) return sec(`<p class="was">${ic('check', 16)}답했어요 — ${esc(a.options.find((o) => o.key === st.ask).label)}</p>`);
+  return sec(`<span class="sx-eyebrow mine">${ic('question', 14)}질문</span><h3>${esc(a.text)}</h3><p class="why">${esc(a.why)}</p>
+    <div class="acts">${a.options.map((o) => `<button class="btn" data-ask="${o.key}">${esc(o.label)}</button>`).join('')}</div>`);
+}
+function costSec() {
+  if (st.cost) return sec(`<p class="was">${ic('check', 16)}${st.cost === 'ok' ? '원가표를 확정했어요' : '고칠 점을 보냈어요 — 미나가 고쳐서 다시 올려요'}</p>`);
+  return sec(`<span class="sx-eyebrow mine">${ic('decisions', 14)}확인</span><h3>메뉴 원가표</h3>${costTable()}
+    ${st.costFix ? `<textarea id="fix" placeholder="무엇을 고칠까요? 예: 우유 값을 1L 2,800원으로"></textarea><div class="acts"><button class="btn pri" data-cost="fix">보내기</button><button class="btn quiet" data-cost="back">취소</button></div>`
+      : `<div class="acts"><button class="btn decide" data-cost="ok">이대로 OK</button><button class="btn" data-cost="fixopen">고쳐 주세요</button></div>`}`);
+}
+function postSec() {
+  const p = SCENE.post, s = st.post;
+  const steps = `<div class="sx-steps"><b class="${s === 0 ? 'on' : 'done'}">1 원문 확인</b><i></i><b class="${s === 1 ? 'on' : s > 1 ? 'done' : ''}">2 승인</b></div>`;
+  if (s >= 2) return sec(`<p class="was">${ic('check', 16)}승인했어요 — 연습 게시로 올렸어요(실제로 나가지 않음). 승인한 원문은 고정돼요.</p>`);
+  return sec(`<span class="sx-eyebrow mine">${ic('send', 14)}밖으로 나가는 글 · ${esc(p.where)}</span><h3>${esc(p.title)}</h3>${steps}
+    <blockquote class="sx-quote">${esc(p.text)}</blockquote>
+    ${s === 0 ? `<div class="acts"><button class="btn decide" data-post="read">원문 그대로 확인했어요</button><button class="btn" data-post="fix">고쳐 주세요</button></div>`
+      : `<p class="why">이 글자 그대로 나가요. 승인하면 연습 게시로 올라가요.</p><div class="acts"><button class="btn decide" data-post="ok">승인하기</button><button class="btn quiet" data-post="back">다시 읽기</button></div>`}`);
+}
+function head(title, sub) { return `<button class="grip" data-close aria-label="닫기"></button><header><h2>${esc(title)}</h2>${sub ? `<span class="sx-who">${esc(sub)}</span>` : ''}<button class="btn quiet close" data-close aria-label="닫기">${ic('x', 18)}</button></header>`; }
+
+function renderSheet() {
+  const o = st.open;
+  sheet.classList.toggle('off', !o);
+  if (!o) return;
+  if (o === 'person:mina') sheet.innerHTML = head('미나', P.mina.roleFull) + (!st.ask ? askSec() + `<p class="a-next">다음 · 메뉴 원가표 확인</p>` : costSec()); // 한 번에 하나씩
+  else if (o === 'person:hana') sheet.innerHTML = head('하나', P.hana.roleFull) + postSec();
+  else if (o === 'person:leo') sheet.innerHTML = head('레오', P.leo.roleFull) + sec(`<span class="sx-eyebrow">${ic('search', 14)}일하는 중</span><h3>${esc(SCENE.research.now)}</h3><p class="why">${esc(SCENE.research.eta)}까지 상권 조사 메모로 넘겨요. 대표님이 할 일은 없어요.</p>`);
+  else if (o === 'todo') {
+    const list = pending();
+    sheet.innerHTML = head('확인할 것', list.length ? `${list.length}개` : '') + (list.length
+      ? `<ul class="a-list">${list.map((x) => `<li><button data-person="${x.who}"><span class="sx-who">${esc(P[x.who].name)}</span><span><span class="mine">${esc(x.label)}</span><br><b>${esc(x.title)}</b></span><span class="go">${ic('share', 18)}</span></button></li>`).join('')}</ul>`
+      : `<p class="a-empty">지금은 볼 것이 없어요. 팀이 이어서 일하는 중이에요.</p>`);
+  } else if (o === 'docs') {
+    const word = (d) => (d.title === '메뉴 원가표' && st.cost ? ['done', '끝'] : d.title === '가게 소개 문구' && st.post >= 2 ? ['done', '끝'] : [d.state, d.word]);
+    sheet.innerHTML = head('문서', SCENE.week) + `<ul class="a-list">${SCENE.docs.map((d) => { const [s, w] = word(d); return `<li><button data-doc="${esc(d.title)}"><span class="sx-who">${esc(d.who)}</span><b>${esc(d.title)}</b><span class="go"><span class="pill ${{ me: 'st-me', working: 'st-working', done: 'st-done' }[s]}">${w}</span></span></button></li>`; }).join('')}</ul>`;
+  }
+}
+
+function open(k) { st.open = k; render(); }
+sheet.addEventListener('click', (ev) => {
+  const t = ev.target.closest('button'); if (!t) return;
+  if (t.hasAttribute('data-close')) { st.open = null; return render(); }
+  if (t.dataset.person) return open(`person:${t.dataset.person}`);
+  if (t.dataset.doc) { const d = SCENE.docs.find((x) => x.title === t.dataset.doc); return open(d.who === '레오' ? 'person:leo' : d.who === '하나' ? 'person:hana' : 'person:mina'); }
+  if (t.dataset.ask) { st.ask = t.dataset.ask; toast(`미나: ${SCENE.ask.options.find((o) => o.key === st.ask).reply}`); }
+  if (t.dataset.cost === 'ok') { st.cost = 'ok'; toast('원가표 확정 — 문서에 들어갔어요'); }
+  if (t.dataset.cost === 'fixopen') st.costFix = true;
+  if (t.dataset.cost === 'back') st.costFix = false;
+  if (t.dataset.cost === 'fix') { st.cost = 'fix'; st.costFix = false; toast('미나에게 보냈어요'); }
+  if (t.dataset.post === 'read') st.post = 1;
+  if (t.dataset.post === 'back') st.post = 0;
+  if (t.dataset.post === 'ok') { st.post = 2; toast('연습 게시 끝 — 실제로는 나가지 않았어요'); }
+  if (t.dataset.post === 'fix') toast('하나에게 고칠 점을 보내는 자리(견본에서는 생략)');
+  if (st.open === 'person:mina' && st.ask && st.cost) setTimeout(() => { st.open = null; render(); }, 900);
+  if (st.open === 'person:hana' && st.post >= 2) setTimeout(() => { st.open = null; render(); }, 1100);
+  render();
+});
+document.querySelector('.a-nav').addEventListener('click', (ev) => {
+  const b = ev.target.closest('[data-nav]'); if (!b) return;
+  st.open = b.dataset.nav === 'office' ? null : (st.open === b.dataset.nav ? null : b.dataset.nav); render();
+});
+// 말풍선 · 이름표를 누르면 그 직원의 시트
+document.getElementById('tags').addEventListener('click', (ev) => {
+  const tag = ev.target.closest('.o3-tag'); if (!tag) return;
+  const id = tag.querySelector('[data-emp]')?.dataset.emp; if (id) open(`person:${id}`);
+});
+
+const qs = new URLSearchParams(location.search);
+if (qs.has('open')) st.open = qs.get('open');
+mountOffice(document.getElementById('host'), document.getElementById('tags'), { stage: 1, onPick: (id) => id && open(`person:${id}`) }).then((h) => {
+  if (!h) {
+    const img = document.createElement('img'); img.className = 'a-fallback'; img.alt = '사무실(스크린샷)'; img.src = '/docs/product/qa/shots-2026-10-08-brand4/office-1440-낮-밝게.jpg';
+    stage.prepend(img); document.body.dataset.office = 'shot'; return render();
+  }
+  office = h; document.body.dataset.office = 'live';
+  const v0 = officeView(crew()); h.update(v0); h.home(v0.employees); if (innerWidth < 760) h.frameDesks(1.25);
+  render();
+});
+render();
+</script>
+</body>
+</html>

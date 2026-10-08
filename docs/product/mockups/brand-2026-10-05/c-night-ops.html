@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>브랜드 시안 C — 밤의 관제실</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="common.css">
+<style>
+/* 어두운 모드가 기본 — :root가 어두운 토큰, .theme-dark 자리는 밝은 모드 견본 */
+:root {
+  --page: #0B0F17; --bg: #0E131C; --surface: #151C28; --surface-2: #1C2433; --ink: #E6EDF7; --ink-2: #9AA7BA; --ink-3: #66738A; --line: #232D3D; --line-2: #2F3B4F;
+  --accent: #2FD3A6; --accent-ink: #062018; --accent-text: #2FD3A6;
+  --decide: #FFB547; --decide-ink: #2A1A00; --decide-soft: #3A2A0E; --decide-text: #FFC873;
+  --grow: #A897FF; --grow-soft: #262046; --grow-text: #C6BBFF;
+  --info: #4CC9F0; --info-soft: #0F2A3A; --info-text: #8EE0FA;
+  --ok: #2FD3A6; --ok-soft: #0D2E27; --ok-text: #74E8C6;
+  --bad: #FF6B6B; --bad-soft: #3A1517; --bad-text: #FF9C9C;
+  --rail-bg: #080B11; --rail-ink: #C8D2E0; --rail-on-bg: #1C2433; --rail-on-ink: #2FD3A6;
+  --ic-stroke: 1.5; --ic-fill-on: none;
+  --radius: 10px; --radius-sm: 6px; --radius-btn: 8px; --shadow: 0 20px 40px -24px #000;
+  --font-display: "Pretendard Variable", Pretendard, system-ui, sans-serif; --font-ui: "Pretendard Variable", Pretendard, system-ui, sans-serif; --font-num: "JetBrains Mono", monospace;
+  --display-weight: 650; --display-track: -.02em;
+  --m-sky: #0E1424; --m-ground: #0A0F1A; --m-floor: #1A2232; --m-floor-line: rgba(47, 211, 166, .14); --m-wall: #222C3E; --m-wall-2: #1C2536; --m-glass: #2FD3A6; --m-desk: #2A3448; --m-feature: #FFB547; --m-trim: #4CC9F0;
+}
+.theme-dark {
+  --bg: #F2F4F7; --surface: #FFFFFF; --surface-2: #E9EDF2; --ink: #101722; --ink-2: #4A5668; --ink-3: #8592A5; --line: #DDE3EA; --line-2: #C9D1DB;
+  --accent: #0E9E7A; --accent-ink: #FFFFFF; --accent-text: #0B7F62;
+  --decide: #E08A00; --decide-ink: #FFFFFF; --decide-soft: #FFF0D6; --decide-text: #8F5800;
+  --grow: #6C5CE7; --grow-soft: #ECE9FD; --grow-text: #4B3CC4;
+  --info: #0B8FBF; --info-soft: #DFF3FB; --info-text: #076C91;
+  --ok: #0E9E7A; --ok-soft: #DDF5EE; --ok-text: #0B7F62;
+  --bad: #D64545; --bad-soft: #FBE4E4; --bad-text: #A82F2F;
+  --rail-bg: #101722; --rail-ink: #C8D2E0; --rail-on-bg: #F2F4F7; --rail-on-ink: #0B7F62;
+  --shadow: 0 12px 30px -20px rgba(16, 23, 34, .4);
+  --m-sky: #DDE6EF; --m-ground: #CBD5E0; --m-floor: #E8EDF2; --m-floor-line: rgba(14, 158, 122, .12); --m-wall: #F7F9FB; --m-wall-2: #EDF1F5; --m-glass: #A9E6D6; --m-desk: #3A4558; --m-feature: #E08A00; --m-trim: #0B8FBF;
+}
+.top .eyebrow, .sec > h3, .dir-head .kicker { font-family: var(--font-num); text-transform: uppercase; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+window.DIR = {
+  id: 'C', en: 'Night Ops', name: '밤의 관제실',
+  lead: '어두운 화면이 기본. AI 팀이 밤새 일하는 걸 지켜보는 관제실처럼, 불 켜진 3D 사무실이 화면의 빛이 된다. 숫자와 상태는 고정폭 글꼴로.',
+  words: ['몰입하는', '기술적인', '살아 있는', '집중된'],
+  fonts: '제목 · 본문 Pretendard, 숫자 · 작은 이름표 JetBrains Mono',
+  iconRule: '1.5px 가는 선, 채움 없음, 빛나는 상태 점',
+  colorRule: '<b>민트 = 행동 · 끝</b>, <b>호박 = 대표 몫</b>, <b>보라 = 성장</b>, 하늘 = 일하는 중. 어두운 바탕 위 네온 계열. 이모지 아이콘은 쓰지 않는다.',
+  caps: ['어두운 모드(기본) — 사무실 메인 · 결정 대기 · 이번 주 블록', '밝은 모드(보조) — 문서 · 표를 오래 읽을 때'],
+  mascots: [{ c: '#FF7A59', h: '#FFB547' }, { c: '#7C6CFF', h: '#C6BBFF' }, { c: '#2FD3A6', h: '#E6EDF7' }],
+  oneLook: '<b>3D는 늘 저녁 · 밤 조명</b> — 어두운 벽, 빛나는 창 · 바닥 격자. 2D 카드는 반투명 없이 어두운 면 + 가는 선. 떠 있는 표지는 고정폭 숫자.',
+  dark: '이 시안은 어두운 모드가 기본이다. 밝은 모드는 문서 · 표 확인용 보조로만 두며 3D는 낮 조명으로 바뀐다.',
+  pros: ['3D 사무실이 가장 돋보인다 — 불빛 · 창 · 마스코트가 화면의 주인공.', '"AI가 계속 일하고 있다"는 느낌(살아 있음)이 강하다.', 'Hermes Agent · 개발자 도구와 결이 비슷해 오픈소스(R1) 초기 사용자에게 익숙하다.'],
+  cons: ['대상(비기술 창업자, PRD §2)에게 개발자 도구 · 게임 런처처럼 보일 위험 — 신뢰 · 차분함이 약하다.', '결과물(문서 · 표 · 체크리스트)을 읽는 화면은 결국 밝아야 해서 두 결을 오간다.', '컴퓨터 시계를 따르는 시간대 배경(결정 75)과 겹친다 — 낮에도 밤처럼 보인다.', '네온 색이 많아 "대표 몫" 한 가지가 덜 돋보인다.'],
+};
+</script>
+<script src="sample.js"></script>
+</body>
+</html>

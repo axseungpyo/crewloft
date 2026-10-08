@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C · 오늘 할 일 하나만</title>
+<meta name="color-scheme" content="light dark">
+<script>{ const t = new URLSearchParams(location.search).get('theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; }</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/web/css/base.css">
+<link rel="stylesheet" href="common.css">
+<script type="importmap">
+{ "imports": { "preact": "/node_modules/preact/dist/preact.mjs", "preact/hooks": "/node_modules/preact/hooks/dist/hooks.mjs", "htm": "/node_modules/htm/dist/htm.module.js" } }
+</script>
+<style>
+/* C — 열면 '대표님이 지금 할 일' 하나만 크게. 끝내면 다음 것. 회차 · 블록 · 수치는 숨긴다 */
+body { background: var(--surface); }
+.c-app { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+.c-top { display: flex; align-items: center; gap: 16px; padding: 22px 32px; }
+.c-top b { font-size: var(--fs-5); font-weight: var(--fw-3); }
+.c-top .wk { color: var(--ink-3); font-size: var(--fs-3); }
+.c-top a { margin-left: auto; color: var(--ink-2); font-size: var(--fs-3); text-decoration: none; display: inline-flex; gap: 6px; align-items: center; }
+.c-top a:hover { color: var(--ink); }
+.c-main { flex: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; max-width: 760px; margin: 0 auto; padding: 24px 32px 48px; }
+.c-count { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+.c-count .lb { font-size: var(--fs-4); font-weight: var(--fw-2); color: var(--decide-text); }
+.c-count .n { font-size: var(--fs-4); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.c-count .bars { display: flex; gap: 4px; margin-left: auto; }
+.c-count .bars i { width: 28px; height: 3px; background: var(--line-2); border-radius: 2px; }
+.c-count .bars i.done { background: var(--ink); } .c-count .bars i.now { background: var(--decide); }
+.c-task { display: flex; flex-direction: column; gap: 20px; animation: cin .35s ease both; }
+@keyframes cin { from { opacity: 0; transform: translateY(12px); } }
+.c-task .from { color: var(--ink-2); font-size: var(--fs-4); }
+.c-task .from b { color: var(--ink); font-weight: var(--fw-2); }
+.c-task h1 { font-size: var(--fs-10); letter-spacing: -.035em; line-height: 1.25; }
+.c-task .why { font-size: var(--fs-5); color: var(--ink-2); max-width: 600px; }
+.c-task .acts { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; align-items: center; }
+.c-task .acts .btn { font-size: var(--fs-5); padding: 13px 24px; }
+.c-task .later { border: 0; background: none; color: var(--ink-3); font-size: var(--fs-4); margin-left: 8px; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--line-2); }
+.c-task .sx-table { font-size: var(--fs-5); }
+.c-task .sx-quote { font-size: var(--fs-7); line-height: 1.6; }
+.c-task textarea { border: 0; border-bottom: 2px solid var(--ink); background: transparent; font-size: var(--fs-6); padding: 8px 0; min-height: 70px; resize: none; color: var(--ink); }
+.c-task textarea:focus { outline: none; }
+.c-done ul { list-style: none; margin: 8px 0 0; padding: 0; }
+.c-done li { display: flex; gap: 10px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line); font-size: var(--fs-5); }
+.c-done li .ico { color: var(--ok); }
+.c-team { position: sticky; bottom: 0; border-top: 1px solid var(--line); background: var(--surface); padding: 14px 32px; display: flex; gap: 22px; align-items: center; font-size: var(--fs-4); color: var(--ink-2); overflow-x: auto; white-space: nowrap; }
+.c-team > span:first-child { color: var(--ink); font-weight: var(--fw-2); }
+.c-team .p { display: inline-flex; gap: 8px; align-items: center; }
+.c-team .p b { color: var(--ink); font-weight: var(--fw-2); }
+@media (max-width: 640px) {
+  .c-top { padding: 16px; }
+  .c-main { padding: 8px 16px 32px; justify-content: flex-start; }
+  .c-count { margin-bottom: 20px; }
+  .c-task { gap: 16px; }
+  .c-task h1 { font-size: var(--fs-8); }
+  .c-task .sx-quote { font-size: var(--fs-6); }
+  .c-task .sx-table { font-size: var(--fs-4); }
+  .c-task .acts .btn { flex: 1; justify-content: center; padding: 13px 16px; }
+  .c-task .later { width: 100%; margin: 4px 0 0; }
+  .c-team { padding: 12px 16px; gap: 16px; font-size: var(--fs-3); }
+}
+</style>
+</head>
+<body>
+<div class="c-app">
+  <header class="c-top"><b>골목커피</b><span class="wk">10월 2주차</span><a href="a.html"><span data-ic="office"></span>사무실 보기</a></header>
+  <main class="c-main" id="main"></main>
+  <footer class="c-team" id="team"></footer>
+</div>
+
+<section class="sx-memo" id="memo"><div>
+  <span class="sx-eyebrow">견본 C</span>
+  <h2>오늘 할 일 하나만</h2>
+  <p class="lead">열면 대표님이 지금 할 일 하나만 크게 보여요. 끝내면 다음 것, 다 끝나면 '오늘 할 일 끝'. 팀 소식은 맨 아래 한 줄뿐이에요. 3D 사무실은 이 화면에 없고, 위 오른쪽 '사무실 보기'로 가요.</p>
+  <div class="counts"><div><b>1</b><span>한 번에 보이는 할 일</span></div><div><b>0</b><span>메뉴 · 탭 · 숫자 카드</span></div><div><b>0</b><span>회차 · 블록 · 레벨 낱말</span></div></div>
+  <table>
+    <thead><tr><th>숨긴 것</th><th>옮긴 곳</th></tr></thead>
+    <tbody>
+      <tr><td>결정함 목록 · 등급 세 개</td><td>한 장에 하나씩. 순서는 '팀이 멈춰 있는 것 먼저'(질문 → 확인 → 밖으로). 밖으로 나가는 글은 그 장 안에서 '원문 확인 → 승인'</td></tr>
+      <tr><td>회차 · 블록 · 할 일 띠 · 진행 수치</td><td>위 오른쪽 짧은 막대 세 개(오늘 할 일 몇 개 중 몇 번째)만. 나머지는 사무실 화면으로</td></tr>
+      <tr><td>3D 사무실</td><td>'사무실 보기' 링크 뒤로. 할 일이 없을 때 첫 화면을 사무실로 바꾸는 방법도 있음(제안)</td></tr>
+      <tr><td>직원 상태 · 되묻는 중 · 레벨 · 실적</td><td>아래 한 줄 '팀은 지금'에 사람마다 상태 낱말 하나</td></tr>
+      <tr><td>문서 · 회사 · 설정</td><td>이 견본에서는 뺌. 다 끝난 장에서 '이번 주 문서'로 이어 주는 자리(제안)</td></tr>
+    </tbody>
+  </table>
+  <p class="lead" style="margin-top:20px">주의: 가장 쉽지만, 할 일이 없을 때 화면이 비고 '자라는 사무실'이 안 보여요. A의 첫 화면으로 쓰는 조합(사무실 위에 C 한 장)도 가능해요.</p>
+  <nav><a href="index.html">네 개 비교</a><a href="a.html">A 사무실</a><a href="b.html">B 대화</a><a href="c.html" class="on">C 오늘 할 일</a><a href="d.html">D 문서</a></nav>
+</div></section>
+
+<script type="module">
+import { SCENE, ic, esc, costTable, pill } from './kit.js';
+for (const el of document.querySelectorAll('[data-ic]')) el.innerHTML = ic(el.dataset.ic, 16);
+
+const st = { order: ['ask', 'cost', 'post'], i: 0, ask: null, cost: null, fix: false, post: 0, log: [] };
+const main = document.getElementById('main');
+const P = SCENE.people;
+
+function bars() { return `<span class="bars">${st.order.map((_, k) => `<i class="${k < st.i ? 'done' : k === st.i ? 'now' : ''}"></i>`).join('')}</span>`; }
+function card(key) {
+  if (key === 'ask') {
+    const a = SCENE.ask;
+    return `<p class="from"><b>미나</b>가 묻고 있어요 — 답해야 원가표를 마무리해요</p><h1>${esc(a.text)}</h1><p class="why">${esc(a.why)}</p>
+      <div class="acts">${a.options.map((o) => `<button class="btn ${o.key === 'keep' ? 'decide' : ''}" data-ask="${o.key}">${esc(o.label)}</button>`).join('')}<button class="later" data-later>나중에</button></div>`;
+  }
+  if (key === 'cost') {
+    return `<p class="from"><b>미나</b>가 만든 메뉴 원가표예요</p><h1>이대로 확정할까요?</h1>${costTable()}
+      ${st.fix ? `<textarea id="fix" placeholder="무엇을 고칠까요?"></textarea><div class="acts"><button class="btn pri" data-cost="fix">미나에게 보내기</button><button class="later" data-cost="cancel">취소</button></div>`
+        : `<div class="acts"><button class="btn decide" data-cost="ok">이대로 OK</button><button class="btn" data-cost="open">고쳐 주세요</button><button class="later" data-later>나중에</button></div>`}`;
+  }
+  const p = SCENE.post, s = st.post;
+  const steps = `<div class="sx-steps"><b class="${s === 0 ? 'on' : 'done'}">1 원문 확인</b><i></i><b class="${s === 1 ? 'on' : ''}">2 승인</b></div>`;
+  return `<p class="from"><b>하나</b>가 쓴 ${esc(p.title)} · ${esc(p.where)}에 나가요</p><h1>${s === 0 ? '나가기 전에 원문을 읽어 주세요' : '이 글자 그대로 내보낼까요?'}</h1>${steps}<blockquote class="sx-quote">${esc(p.text)}</blockquote>
+    ${s === 0 ? `<div class="acts"><button class="btn decide" data-post="read">원문 그대로 확인했어요</button><button class="btn" data-post="fix">고쳐 주세요</button><button class="later" data-later>나중에</button></div>`
+      : `<p class="why">승인하면 연습 게시로 올라가요. 승인한 원문은 고정돼요.</p><div class="acts"><button class="btn decide" data-post="ok">승인하기</button><button class="later" data-post="back">다시 읽기</button></div>`}`;
+}
+function render() {
+  const left = st.order.length - st.i;
+  if (st.i >= st.order.length) {
+    main.innerHTML = `<div class="c-task c-done"><p class="from">오늘 대표님 몫</p><h1>오늘 할 일 끝</h1><p class="why">팀이 이어서 일해요. 새로 볼 것이 생기면 여기에 하나만 띄울게요.</p>
+      <ul>${st.log.map((t) => `<li>${ic('check', 18)}${esc(t)}</li>`).join('')}</ul></div>`;
+  } else {
+    main.innerHTML = `<div class="c-count"><span class="lb">대표님이 지금 할 일</span><span class="n">${st.i + 1} / ${st.order.length}</span>${bars()}</div><div class="c-task" data-k="${st.order[st.i]}">${card(st.order[st.i])}</div>`;
+  }
+  const mWait = !st.ask || !st.cost, hWait = st.post < 2;
+  document.getElementById('team').innerHTML = `<span>팀은 지금</span>
+    <span class="p"><b>미나</b>${mWait ? pill('me', '대표 확인') : pill('working', '일하는 중')}</span>
+    <span class="p"><b>레오</b>${pill('working', '일하는 중')}</span>
+    <span class="p"><b>하나</b>${hWait ? pill('me', '대표 확인') : pill('done', '끝')}</span>
+    ${left ? '' : '<span>대표님을 기다리는 사람 없음</span>'}`;
+}
+const next = (t) => { if (t) st.log.push(t); st.i++; render(); };
+main.addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.hasAttribute('data-later')) { st.order.push(st.order.splice(st.i, 1)[0]); return render(); }
+  if (b.dataset.ask) { st.ask = b.dataset.ask; return next(`질문에 답함 — ${SCENE.ask.options.find((o) => o.key === st.ask).label}`); }
+  if (b.dataset.cost === 'ok') { st.cost = 'ok'; return next('메뉴 원가표 확정'); }
+  if (b.dataset.cost === 'open') { st.fix = true; return render(); }
+  if (b.dataset.cost === 'cancel') { st.fix = false; return render(); }
+  if (b.dataset.cost === 'fix') { st.cost = 'fix'; return next('메뉴 원가표 고칠 점을 미나에게 보냄'); }
+  if (b.dataset.post === 'read') { st.post = 1; return render(); }
+  if (b.dataset.post === 'back') { st.post = 0; return render(); }
+  if (b.dataset.post === 'ok') { st.post = 2; return next('가게 소개 문구 승인 — 연습 게시'); }
+  if (b.dataset.post === 'fix') { st.post = 2; return next('가게 소개 문구 고칠 점을 하나에게 보냄'); }
+});
+const q = new URLSearchParams(location.search).get('step');
+if (q === 'cost') { st.ask = 'keep'; st.log.push('질문에 답함 — 그대로 써 주세요'); st.i = 1; }
+render();
+</script>
+</body>
+</html>

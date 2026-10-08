@@ -1,0 +1,107 @@
+/* 브랜드 시안 공통 틀 — 같은 마크업, 방향별 토큰만 다르다(토큰이 디자인을 결정한다는 걸 보여 주려고).
+   각 시안 HTML이 :root(밝은) · .theme-dark(어두운) 토큰을 정의한다. */
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--page, var(--bg)); color: var(--ink); font-family: var(--font-ui); font-size: 14px; -webkit-font-smoothing: antialiased; word-break: keep-all; overflow-wrap: break-word; }
+.wrap { width: min(1360px, calc(100% - 32px)); margin: 0 auto; padding: 40px 0 72px; }
+h1, h2, h3, p { margin: 0; }
+.num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+
+/* 머리 */
+.dir-head { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px; align-items: end; margin-bottom: 28px; }
+.dir-head .kicker { font-size: 12px; font-weight: 700; letter-spacing: .06em; color: var(--accent-text); text-transform: uppercase; }
+.dir-head h1 { font-family: var(--font-display); font-weight: var(--display-weight); font-size: 44px; letter-spacing: var(--display-track); line-height: 1.15; margin: 8px 0 10px; }
+.dir-head .lead { color: var(--ink-2); font-size: 16px; line-height: 1.7; max-width: 36em; }
+.words { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.words span { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 14px; font-weight: 600; font-size: 13.5px; }
+
+/* 앱 화면 견본 2개(밝은 · 어두운) */
+.frames { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.frame { background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: grid; grid-template-columns: 64px minmax(0, 1fr); height: 520px; box-shadow: var(--shadow); }
+.frame-cap { font-size: 12px; color: var(--ink-3); margin: 8px 2px 0; }
+.rail { background: var(--rail-bg); color: var(--rail-ink); display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 0; }
+.rail .mark { width: 36px; height: 36px; border-radius: 10px; border: 1.5px dashed color-mix(in srgb, var(--rail-ink) 45%, transparent); display: grid; place-items: center; font-size: 9px; line-height: 1.1; text-align: center; color: color-mix(in srgb, var(--rail-ink) 70%, transparent); margin-bottom: 10px; }
+.rail a { position: relative; width: 52px; padding: 8px 0 6px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10.5px; color: inherit; text-decoration: none; opacity: .72; }
+.rail a.on { opacity: 1; background: var(--rail-on-bg); color: var(--rail-on-ink); font-weight: 700; }
+.rail a.on .ic { fill: var(--ic-fill-on); }
+.rail .badge { position: absolute; top: 3px; right: 6px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: var(--decide); color: var(--decide-ink); font-size: 10px; font-weight: 700; display: grid; place-items: center; font-family: var(--font-num); }
+.rail .live { margin-top: auto; font-size: 10px; display: flex; flex-direction: column; align-items: center; gap: 4px; opacity: .8; }
+.rail .live i { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
+
+.ic { width: 20px; height: 20px; stroke: currentColor; stroke-width: var(--ic-stroke); fill: none; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.ic.sm { width: 15px; height: 15px; }
+
+.main { position: relative; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-width: 0; }
+.top { display: flex; align-items: flex-start; gap: 10px; padding: 14px 16px 6px; }
+.top .eyebrow { font-size: 11.5px; font-weight: 700; color: var(--ink-3); }
+.top h2 { font-family: var(--font-display); font-weight: var(--display-weight); letter-spacing: var(--display-track); font-size: 22px; margin-top: 2px; }
+.top .sp { flex: 1; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.chip { display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; padding: 4px 10px; font-size: 11.5px; background: var(--surface); border: 1px solid var(--line); white-space: nowrap; }
+.chip b { font-family: var(--font-num); font-weight: 700; }
+.chip .ic { width: 14px; height: 14px; }
+.chip.res { color: var(--grow-text); background: var(--grow-soft); border-color: transparent; }
+
+.stage { position: relative; min-height: 0; overflow: hidden; background: var(--m-sky); }
+.stage svg.room { position: absolute; inset: 0; width: 100%; height: 100%; }
+.float { position: absolute; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 12px 14px; }
+.float.decide { right: 12px; top: 10px; width: 210px; }
+.float h4 { margin: 0 0 8px; font-size: 12px; color: var(--ink-2); display: flex; align-items: center; gap: 6px; }
+.float h4 b { color: var(--decide-text); font-family: var(--font-num); }
+.float .it { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 12.5px; }
+.float .go { margin-top: 8px; width: 100%; justify-content: center; }
+.zoom { position: absolute; left: 12px; top: 10px; display: flex; flex-direction: column; gap: 2px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 4px; }
+.zoom span { width: 30px; height: 28px; display: grid; place-items: center; border-radius: 7px; color: var(--ink-2); }
+.zoom span.on { background: var(--ink); color: var(--bg); }
+
+.dock { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 10px 12px 12px; border-top: 1px solid var(--line); background: var(--bg); }
+.blk { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 8px 10px; display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.blk .t { font-size: 12px; font-weight: 700; display: flex; gap: 6px; align-items: center; }
+.blk .t i { font-style: normal; font-family: var(--font-num); width: 17px; height: 17px; border-radius: 50%; background: var(--ink); color: var(--bg); display: grid; place-items: center; font-size: 10px; flex: none; }
+.bar { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; } .bar i { display: block; height: 100%; background: var(--accent); }
+
+/* 상태 표시 — 색 + 아이콘 + 낱말 */
+.pill { display: inline-flex; align-items: center; gap: 4px; border-radius: 999px; padding: 2px 8px 2px 6px; font-size: 11px; font-weight: 600; white-space: nowrap; width: fit-content; }
+.pill .ic { width: 12px; height: 12px; stroke-width: 2.4; }
+.p-work { background: var(--info-soft); color: var(--info-text); }
+.p-decide { background: var(--decide-soft); color: var(--decide-text); }
+.p-done { background: var(--ok-soft); color: var(--ok-text); }
+.p-wait { background: var(--surface-2); color: var(--ink-2); }
+.p-bad { background: var(--bad-soft); color: var(--bad-text); }
+.p-grow { background: var(--grow-soft); color: var(--grow-text); }
+
+/* 버튼 */
+.btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); border-radius: var(--radius-btn); padding: 8px 14px; font: inherit; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.btn.pri { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.decide { background: var(--decide); border-color: var(--decide); color: var(--decide-ink); }
+.btn.quiet { background: transparent; border-color: transparent; color: var(--ink-2); }
+.btn.bad { color: var(--bad-text); border-color: var(--bad-soft); }
+.btn.sm { padding: 5px 10px; font-size: 12px; }
+
+/* 아래 설명 구역 */
+.sec { margin-top: 36px; }
+.sec > h3 { font-size: 13px; font-weight: 700; color: var(--ink-3); letter-spacing: .04em; margin-bottom: 12px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; }
+.sw { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+.sw div { border-radius: 10px; overflow: hidden; border: 1px solid var(--line); font-size: 11px; background: var(--surface); }
+.sw div i { display: block; height: 44px; }
+.sw div span { display: block; padding: 6px 8px; line-height: 1.35; } .sw div code { color: var(--ink-3); font-size: 10px; }
+.type-row { display: flex; align-items: baseline; gap: 14px; padding: 8px 0; border-top: 1px solid var(--line); }
+.type-row:first-child { border-top: 0; }
+.type-row small { width: 92px; flex: none; color: var(--ink-3); font-size: 11px; }
+.icons { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+.icons div { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-2); padding: 10px 0; border-radius: 10px; background: var(--surface-2); }
+.icons .ic { width: 24px; height: 24px; color: var(--ink); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.pros { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.pros ul { margin: 8px 0 0; padding-left: 18px; line-height: 1.75; color: var(--ink-2); }
+.pros b { font-size: 14px; }
+.rule { font-size: 13px; line-height: 1.7; color: var(--ink-2); } .rule b { color: var(--ink); }
+.mat { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+.mat div { font-size: 11px; color: var(--ink-2); } .mat div i { display: block; height: 54px; border-radius: 10px; margin-bottom: 5px; border: 1px solid var(--line); }
+.copy { width: 100%; border-collapse: collapse; font-size: 13px; }
+.copy td { padding: 8px 6px; border-top: 1px solid var(--line); vertical-align: top; line-height: 1.55; }
+.copy td:first-child { color: var(--ink-3); text-decoration: line-through; width: 45%; }

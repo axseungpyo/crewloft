@@ -1,0 +1,66 @@
+/* 앱 껍데기(결정 87) — 위쪽 줄: 왼쪽 회사 이름(누르면 회사 · 설정 메뉴), 오른쪽 글자 메뉴 셋(사무실 · 확인할 것 · 문서).
+   사무실에서는 3D 위에 바랜 띠로 떠 있고, 다른 화면에서는 면 + 아래 선 하나. 휴대폰은 회사 이름만 위에, 메뉴 셋은 아래 칸 */
+.boot, .login { min-height: 100vh; display: grid; place-items: center; padding: 16px; }
+.login form { width: min(380px, 100%); padding: 28px; }
+.shell { min-height: 100vh; min-height: 100dvh; }
+.topbar { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 24px; padding: 14px 28px; background: var(--surface); border-bottom: 1px solid var(--line); }
+.shell.on-office .topbar { position: absolute; left: 0; right: 0; align-items: flex-start; padding: 20px 28px 36px; border-bottom: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgb(var(--surface-rgb) / .8), rgb(var(--surface-rgb) / 0)); }
+.shell.on-office .topbar > * { pointer-events: auto; }
+.co { position: relative; min-width: 0; }
+.co-btn { display: flex; flex-direction: column; align-items: flex-start; gap: 0; border: 0; background: none; padding: 2px 0; text-align: left; color: var(--ink); max-width: 100%; }
+.co-btn b { font-size: var(--fs-6); font-weight: var(--fw-3); letter-spacing: -.02em; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.shell.on-office .co-btn b { font-size: var(--fs-7); }
+.co-btn span { color: var(--ink-2); font-size: var(--fs-3); white-space: nowrap; }
+.co-btn .chev { display: inline-block; width: 6px; height: 6px; margin: 0 0 3px 4px; border-right: 1.5px solid var(--ink-3); border-bottom: 1.5px solid var(--ink-3); transform: rotate(45deg); }
+.co-btn:hover b { text-decoration: underline; text-underline-offset: 4px; }
+.co-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: var(--r-sm); }
+/* 회사 이름 메뉴 — 면 하나 + 줄 사이 선 */
+.co-menu { position: absolute; z-index: 40; top: calc(100% + 8px); left: 0; width: 320px; max-width: calc(100vw - 32px); background: var(--surface); color: var(--ink); border-radius: var(--r-sm); box-shadow: 0 18px 48px rgb(var(--shadow-rgb) / .22); padding: 6px 0; }
+.co-item { display: flex; align-items: flex-start; gap: 12px; width: 100%; padding: 12px 16px; border: 0; background: none; color: var(--ink); text-decoration: none; text-align: left; }
+.co-item + .co-item { border-top: 1px solid var(--line); }
+.co-item:hover { background: var(--select-bg); }
+.co-item.on { box-shadow: var(--sel-bar); }
+.co-item .ico { margin-top: 2px; color: var(--ink-2); }
+.co-item span { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.co-item b { font-size: var(--fs-4); }
+.co-item small { color: var(--ink-3); font-size: var(--fs-2); line-height: 1.45; }
+.co-item .dot { flex: none; width: 9px; height: 9px; margin: 6px 5px 0 4px; border-radius: var(--r-pill); background: var(--ok); }
+.co-item .dot:not(.st-ready) { background: var(--bad); }
+.co-foot { border-top: 1px solid var(--line); padding: 10px 16px 6px; }
+.live { display: inline-flex; align-items: center; gap: 8px; font-size: var(--fs-2); color: var(--ink-3); }
+.live i { width: 8px; height: 8px; border-radius: var(--r-pill); background: var(--ink-3); }
+.live.on i { background: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 22%, transparent); }
+.live.off { color: var(--bad-text); } .live.off i { background: var(--bad); }
+/* 메뉴 셋 — 글자만, 지금 화면은 아래 2px 검정 선 */
+.nav3 { margin-left: auto; display: flex; gap: 4px; }
+.nav3-i { position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; font-size: var(--fs-5); color: var(--ink-2); text-decoration: none; }
+.nav3-i:hover { color: var(--ink); }
+.nav3-i.on { color: var(--ink); font-weight: var(--fw-2); box-shadow: inset 0 -2px 0 var(--ink); }
+.nav3-i .ic { display: none; }
+.nav3-i .n { font-weight: var(--fw-3); color: var(--decide-text); font-size: var(--fs-5); }
+.nav3-i:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.screen { min-width: 0; }
+.page { padding: 22px 26px 40px; max-width: 1360px; }
+.page-h { display: flex; align-items: flex-end; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.page-h h1 { font-size: var(--fs-7); }
+.portrait { border-radius: var(--r-pill); background: linear-gradient(180deg, var(--surface-2), var(--line)); flex: none; }
+
+@media (max-width: 760px) {
+  .shell { padding-bottom: 64px; }
+  .topbar, .shell.on-office .topbar { padding: 12px 16px; }
+  .shell.on-office .topbar { padding-bottom: 28px; }
+  .co-btn b, .shell.on-office .co-btn b { font-size: var(--fs-5); }
+  .co-btn span { font-size: var(--fs-2); }
+  .nav3 { position: fixed; z-index: 35; left: 0; right: 0; bottom: 0; margin: 0; gap: 0; background: var(--surface); border-top: 1px solid var(--line); padding: 4px 8px calc(4px + env(safe-area-inset-bottom)); pointer-events: auto; }
+  .nav3-i { flex: 1; flex-direction: column; gap: 2px; padding: 6px 4px; font-size: var(--fs-2); }
+  .nav3-i.on { box-shadow: none; }
+  .nav3-i .ic { display: grid; place-items: center; }
+  .nav3-i .n { position: absolute; top: 2px; left: calc(50% + 10px); font-size: var(--fs-2); }
+  .page { padding: 16px; }
+}
+/* 어둡게 — 사무실 위 바랜 띠만 어두운 면으로 */
+:root[data-theme="dark"] .shell.on-office .topbar { background: linear-gradient(180deg, rgb(var(--hud-rgb) / .92) 30%, rgb(var(--hud-rgb) / 0)); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .shell.on-office .topbar { background: linear-gradient(180deg, rgb(var(--hud-rgb) / .92) 30%, rgb(var(--hud-rgb) / 0)); }
+}

@@ -1,0 +1,83 @@
+/* ── 회사: 직원(S4) · 책장·트로피(S8) · 연대기 ── */
+.emps { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.emp-card { display: flex; gap: 12px; align-items: center; color: var(--ink); text-decoration: none; }
+.emp-card:hover { border-color: var(--ink); }
+.emp-card b { font-size: var(--fs-6); }
+.sheet-grid { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 16px; align-items: start; }
+.sheet { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 12px; }
+.sheet h2 { font-size: var(--fs-7); }
+.intro { font-size: var(--fs-5); line-height: 1.6; color: var(--ink-2); }
+.intro small { font-size: var(--fs-2); color: var(--ink-2); }
+.lv { display: flex; flex-direction: column; gap: 2px; background: var(--surface-2); border-radius: var(--r-sm); padding: 8px 10px; }
+.lv b { font-size: var(--fs-6); } .lv small { font-size: var(--fs-1); color: var(--ink-3); }
+.meter { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; font-size: var(--fs-3); }
+.meter b { font-size: var(--fs-6); } .meter small { grid-column: 1 / -1; font-size: var(--fs-1); color: var(--ink-3); }
+.promo { display: flex; flex-direction: column; gap: 4px; border: 1px dashed var(--line-2); border-radius: var(--r-sm); padding: 8px 10px; font-size: var(--fs-3); }
+.promo.ok { border: 1px solid var(--grow); background: var(--grow-soft); }
+.promo small { color: var(--ink-2); font-size: var(--fs-2); }
+.pins { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.pins .rule { background: var(--surface); box-shadow: 0 4px 10px rgb(var(--shadow-rgb) / .05); }
+.rel { display: flex; gap: 10px; flex-wrap: wrap; font-size: var(--fs-3); }
+.rel span { border: 1px solid var(--line); border-radius: var(--r-sm); padding: 5px 9px; }
+.bars { width: 100%; max-width: 520px; height: 110px; }
+.journal { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.journal li { display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 7px 4px; border-bottom: 1px solid var(--line); font-size: var(--fs-3); }
+.journal time { font-family: var(--mono); font-size: var(--fs-2); color: var(--ink-3); }
+.journal .j-rule_changed span, .journal .j-knowledge_changed span { color: var(--ok-text); font-weight: 600; }
+.journal .j-promotion span { color: var(--grow-text); font-weight: 600; }
+.lib { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: start; }
+.lib-main { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.shelf h3 { margin-bottom: 6px; }
+.books { display: flex; gap: 6px; flex-wrap: wrap; align-items: flex-end; padding: 10px 12px 0; min-height: 110px; background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface-2) calc(100% - 10px), var(--line-2) calc(100% - 10px)); border-radius: var(--r); border: 1px solid var(--line); }
+.book { writing-mode: vertical-rl; height: 92px; width: 30px; border: 1px solid rgb(var(--shadow-rgb) / .35); border-radius: var(--r-sm) var(--r-sm) 0 0; font-size: var(--fs-2); font-weight: 600; color: var(--on-strong); padding: 6px 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-bottom: 10px; transition: transform .15s; }
+.book:hover, .book.on { transform: translateY(-6px); }
+.book.c-principle { background: var(--ok); } .book.c-method { background: var(--info); } .book.c-lesson { background: var(--grow); color: var(--on-grow); }
+.book.dim { opacity: .25; }
+.cart { display: flex; flex-direction: column; gap: 10px; }
+.cand-k { border: 1px dashed var(--line-2); border-radius: var(--r); padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; font-size: var(--fs-3); }
+.diff { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: var(--fs-2); }
+.diff span { background: var(--surface-2); border-radius: var(--r-sm); padding: 6px 8px; } .diff span:last-child { background: var(--ok-soft); }
+.tro { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin: 6px 0 8px; }
+.tr { display: flex; flex-direction: column; gap: 3px; border: 1px dashed var(--line-2); border-radius: var(--r); padding: 8px 10px; font-size: var(--fs-3); color: var(--ink-2); }
+.tr.got { border: 1px solid var(--grow-line); background: var(--grow-soft); color: var(--ink); }
+.tr small { font-size: var(--fs-2); }
+.tr .bar { height: 5px; border-radius: var(--r-pill); background: var(--surface-2); overflow: hidden; } .tr .bar i { display: block; height: 100%; background: var(--grow); }
+.openbook { position: sticky; top: 16px; width: 320px; display: flex; flex-direction: column; gap: 8px; background: var(--surface); border-color: var(--line-2); }
+.hist { margin: 0; padding-left: 16px; font-size: var(--fs-2); color: var(--ink-2); }
+.drawer-b.wide { width: min(860px, 100vw); }
+@media (max-width: 1000px) {
+  .sheet-grid, .lib { grid-template-columns: minmax(0, 1fr); }
+  .sheet, .openbook { position: static; width: auto; }
+}
+
+/* ── S7 설정 · 사무실 시설 ── */
+.notice { margin-bottom: 14px; padding: 12px 16px; border-color: var(--line-2); display: flex; flex-direction: column; gap: 6px; } /* 손볼 곳 — 예전 메모지 · 테이프 장식 대신 평범한 카드(brand.md D5) */
+.notice b { font-size: var(--fs-4); } .notice ul { margin: 0; padding-left: 18px; font-size: var(--fs-3); line-height: 1.6; } .notice a { color: var(--ink); } .notice a:hover { color: var(--info-text); }
+.facilities { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.facility { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px 18px; min-height: 130px; }
+.facility:hover { border-color: var(--ink); transform: translateY(-1px); }
+.facility.warn { border-color: var(--bad-line); }
+.facility b { font-size: var(--fs-6); }
+.facility .menu { color: var(--ink-3); font-size: var(--fs-2); } .facility .fsum { margin-top: auto; font-size: var(--fs-3); color: var(--ink-2); }
+.ficon { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: var(--r-sm); background: var(--surface-2); color: var(--ink); } .ficon.big { width: 48px; height: 48px; }
+.room-h { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+.room-tabs { margin-bottom: 14px; flex-wrap: wrap; }
+.hooks { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
+.hook { border-top: 1px solid var(--line); padding-top: 12px; }
+.hook h3 { margin-bottom: 6px; }
+.tagkey { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 1px; min-width: 140px; border: 1px solid var(--line-2); border-radius: var(--r-sm); padding: 8px 12px; background: var(--surface); font-size: var(--fs-3); }
+.tagkey small { color: var(--ink-2); font-size: var(--fs-2); }
+.tagkey.st-connected { border-color: var(--ok-line); background: var(--ok-faint); } .tagkey.st-needs_reauth, .tagkey.st-error { border-color: var(--bad-line); background: var(--bad-soft); }
+.tagkey.on { border-color: var(--accent); box-shadow: var(--sel-ring); }
+.keydetail { max-width: 720px; }
+.gauge b { font-size: var(--fs-8); }
+.shares { display: flex; gap: 10px; flex-wrap: wrap; font-size: var(--fs-3); margin-top: 6px; }
+.gen.off { opacity: .55; }
+.plate { background: rgb(var(--hud-rgb)); color: var(--on-hud); border-radius: var(--r-sm); padding: 10px 14px; font-size: var(--fs-3); }
+.places { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.place { display: flex; flex-direction: column; gap: 4px; } .place.on { border-color: var(--ok-line); background: var(--ok-faint); } .place small { color: var(--ink-2); font-size: var(--fs-2); }
+.stamps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.stamp { display: flex; flex-direction: column; gap: 6px; text-align: left; border: 2px dashed var(--line-2); border-radius: var(--r); padding: 14px; background: var(--surface); }
+.stamp.on { border-style: solid; border-color: var(--accent); } .stamp b { font-size: var(--fs-6); color: var(--ink); } .stamp small { color: var(--ink-2); font-size: var(--fs-2); }
+.card.live.on { border-color: var(--bad-line); background: var(--bad-soft); }
+@media (max-width: 900px) { .facilities, .stamps, .places { grid-template-columns: minmax(0, 1fr); } }

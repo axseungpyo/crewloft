@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>브랜드 시안 B — 선명한 본사</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="common.css">
+<style>
+:root {
+  --bg: #F3F4F6; --surface: #FFFFFF; --surface-2: #EBEDF0; --ink: #14171C; --ink-2: #4D5562; --ink-3: #6F7682; --line: #E1E4E8; --line-2: #CDD2D8;
+  --accent: #14171C; --accent-ink: #FFFFFF; --accent-text: #D9432A;
+  --decide: #D23F26; --decide-ink: #FFFFFF; --decide-soft: #FDE7E2; --decide-text: #B5321C;
+  --grow: #C68A1E; --grow-soft: #FBF0D9; --grow-text: #7A5208;
+  --info: #2F5BEA; --info-soft: #E4EBFD; --info-text: #1E44C0;
+  --ok: #14905F; --ok-soft: #DDF3E9; --ok-text: #0E6B46;
+  --bad: #C8234F; --bad-soft: #FBE3EA; --bad-text: #9E1A3D;
+  --rail-bg: #14171C; --rail-ink: #E9ECF0; --rail-on-bg: #FFFFFF; --rail-on-ink: #14171C;
+  --ic-stroke: 2; --ic-fill-on: rgba(226, 73, 47, .2);
+  --radius: 12px; --radius-sm: 8px; --radius-btn: 10px; --shadow: 0 12px 32px -20px rgba(20, 23, 28, .45);
+  --font-display: "Pretendard Variable", Pretendard, system-ui, sans-serif; --font-ui: "Pretendard Variable", Pretendard, system-ui, sans-serif; --font-num: "Pretendard Variable", Pretendard, sans-serif;
+  --display-weight: 800; --display-track: -.035em;
+  --m-sky: #E6EAF0; --m-ground: #D5DAE1; --m-floor: #EEF0F3; --m-floor-line: rgba(20, 23, 28, .06); --m-wall: #FFFFFF; --m-wall-2: #F0F2F5; --m-glass: #C3D3EA; --m-desk: #2A2F37; --m-feature: #E2492F; --m-trim: #C68A1E;
+}
+.theme-dark {
+  --bg: #0F1115; --surface: #181B21; --surface-2: #20242B; --ink: #F1F3F6; --ink-2: #A9B0BB; --ink-3: #737B87; --line: #262B33; --line-2: #343A44;
+  --accent: #F1F3F6; --accent-ink: #0F1115; --accent-text: #FF6A4D;
+  --decide: #FF5A3C; --decide-ink: #14171C; --decide-soft: #3A1A14; --decide-text: #FF8A72;
+  --grow: #E0A43A; --grow-soft: #33270F; --grow-text: #F2C46E;
+  --info: #6E90FF; --info-soft: #18224A; --info-text: #A9BDFF;
+  --ok: #3CCB91; --ok-soft: #0F2E22; --ok-text: #7FE3B6;
+  --bad: #FF5C86; --bad-soft: #3A1220; --bad-text: #FF9AB3;
+  --rail-bg: #0A0C0F; --rail-ink: #C9CED6; --rail-on-bg: #F1F3F6; --rail-on-ink: #0F1115;
+  --shadow: 0 12px 32px -20px rgba(0, 0, 0, .8);
+  --m-sky: #1A2030; --m-ground: #141924; --m-floor: #2A303B; --m-floor-line: rgba(255, 255, 255, .05); --m-wall: #3A414D; --m-wall-2: #313743; --m-glass: #F5C26B; --m-desk: #1B1F26; --m-feature: #FF5A3C; --m-trim: #E0A43A;
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+window.DIR = {
+  id: 'B', en: 'Bold HQ', name: '선명한 본사',
+  lead: '깨끗한 회색 건물에 대표의 붉은 도장 하나. 화면은 조용한 무채색, 색은 마스코트와 "대표 몫(결정 · 확인)"에만 쓴다. 대담한 3D 마스코트가 주인공이 되는 무대.',
+  words: ['대담한', '명료한', '믿음직한', '자라는'],
+  fonts: '제목 · 본문 · 숫자 모두 Pretendard(제목 800, 숫자 고정폭)',
+  iconRule: '2px 선, 둥근 끝, 지금 위치는 연한 채움',
+  colorRule: '<b>검정 = 행동</b>(주 버튼), <b>인주색 = 대표 몫</b>(결정 · 확인 · 결정함 배지 · 3D 결재함), <b>황동 = 성장</b>(자원 · 레벨). 나머지는 무채색. 이모지 아이콘은 쓰지 않는다.',
+  mascots: [{ c: '#E2492F', h: '#D9A13A' }, { c: '#2F5BEA', h: '#C9CED6' }, { c: '#19B38A', h: '#D9A13A' }],
+  oneLook: '<b>건물은 흰 벽 · 밝은 콘크리트 · 무광</b>, 가구는 짙은 회색 — 2D 바탕 · 면 · 글자 색과 같은 값. 채도는 <b>마스코트(비닐 광택)</b>와 <b>기능 시설 1곳씩(결재함 = 인주색, 레벨 표 = 황동)</b>에만. 떠 있는 이름표 · 카드 · 숫자 표는 2D 컴포넌트를 그대로 쓴다(면 · 선 · 모서리 12 · Pretendard).',
+  dark: '그래파이트 바탕. 밤엔 창이 호박빛으로 켜지고 결재함의 인주색이 가장 밝은 점이 된다 — "확인할 게 있다"가 어두운 화면에서도 한눈에.',
+  pros: ['대담한 3D 마스코트(결정 64 · 메모)와 결이 맞는다 — 무채색 무대라 종 · 색이 달라도 한 회사로 보인다.', '"인주색 = 대표가 할 일" 한 가지 규칙으로 결정함 · 확인 · 배지 · 3D 결재함이 이어진다(약속: AI 팀이 일하고 대표는 확인 · 결정).', 'Pretendard 하나로 글꼴이 단순해지고 숫자(자원 · 가격 · 진행)가 또렷하다.', '성장 단계가 바뀌어도(공유 오피스 → 사옥) 흰 건물 + 도시 블록(결정 75)과 자연스럽다.'],
+  cons: ['지금 결(종이 · 초록 · 명조)에서 가장 많이 바뀐다 — 토큰 · 컴포넌트 · 3D 재질을 모두 손봐야 한다.', '붉은 계열이 "문제"로 읽힐 수 있다 — 문제 색은 라즈베리 + 경고 아이콘 + 낱말로 따로 둬야 한다.', '무채색이 차갑게 느껴질 수 있다 — 말투(해요체)와 마스코트로 따뜻함을 채워야 한다.'],
+};
+</script>
+<script src="sample.js"></script>
+</body>
+</html>

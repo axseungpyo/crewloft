@@ -1,0 +1,11 @@
+# Agent tool runtime state
+.omc/
+.omx/
+.DS_Store
+node_modules/
+data/
+.env.local
+.env
+data-demo/
+data-accounts/
+.playwright-mcp/

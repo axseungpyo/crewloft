@@ -1,0 +1,36 @@
+{
+  "name": "agent-office",
+  "version": "0.0.1",
+  "private": true,
+  "description": "AI 직원 사무실 — 지켜볼 수 있는 3D 사무실 속 AI 창업 팀(셀프호스트 오픈소스)",
+  "license": "AGPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/axseungpyo/crewloft.git"
+  },
+  "bin": {
+    "agent-office": "bin/agent-office.mjs"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env.local --disable-warning=ExperimentalWarning --watch-path=src src/main.ts",
+    "demo": "DATA_DIR=data-demo AI_PROVIDER=fake FAKE_SPEED_MS=1500 HANDOFF_ACCEPT_MS=2500 node --env-file-if-exists=.env.local --disable-warning=ExperimentalWarning src/main.ts",
+    "demo:accounts": "DATA_DIR=data-accounts AUTH_MODE=accounts AI_PROVIDER=fake FAKE_SPEED_MS=1500 HANDOFF_ACCEPT_MS=2500 PORT=4320 node --env-file-if-exists=.env.local --disable-warning=ExperimentalWarning src/main.ts",
+    "start": "node --env-file-if-exists=.env.local --disable-warning=ExperimentalWarning src/main.ts",
+    "test": "node --disable-warning=ExperimentalWarning --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "reset": "node -e \"require('fs').rmSync('data',{recursive:true,force:true})\""
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "htm": "^3.1.1",
+    "preact": "^11.0.0",
+    "three": "^0.180.0"
+  }
+}

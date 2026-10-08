@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crewloft 로고 시안</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+/* 브랜드 B 토큰(web/css/base.css와 같은 값) — 시안 페이지 바탕은 밝게, 각 견본이 밝게 · 어둡게를 따로 보여 준다 */
+:root {
+  --bg: #F3F4F6; --surface: #FFFFFF; --surface-2: #EBEDF0;
+  --ink: #14171C; --ink-2: #4D5562; --ink-3: #646B77; --line: #E1E4E8; --line-2: #CDD2D8;
+  --decide: #D23F26; --decide-soft: #FDE7E2; --decide-text: #B5321C;
+  --d-bg: #0F1115; --d-surface: #181B21; --d-surface-2: #20242B; --d-ink: #F1F3F6; --d-ink-2: #A9B0BB; --d-line: #262B33; --d-decide: #FF5A3C;
+  --font: "Pretendard Variable", Pretendard, -apple-system, system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); word-break: keep-all; -webkit-font-smoothing: antialiased; font-variant-numeric: tabular-nums; }
+.wrap { width: min(1320px, calc(100% - 32px)); margin: 0 auto; padding: 40px 0 72px; }
+h1 { font-size: 36px; font-weight: 800; letter-spacing: -.03em; margin: 0 0 8px; }
+h2 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; margin: 0; }
+h3 { font-size: 16px; font-weight: 800; margin: 0; }
+p { margin: 0; }
+.lead { color: var(--ink-2); line-height: 1.7; max-width: 52em; }
+.small { font-size: 12px; color: var(--ink-3); line-height: 1.55; }
+code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .92em; background: var(--surface-2); border-radius: 6px; padding: 1px 6px; }
+section { margin-top: 44px; }
+.sec-h { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.sec-h p { color: var(--ink-2); font-size: 14px; }
+.tag { display: inline-block; font-size: 12px; font-weight: 600; border-radius: 999px; padding: 2px 10px; background: var(--surface-2); color: var(--ink-2); }
+.tag.rec { background: var(--decide-soft); color: var(--decide-text); }
+
+/* 한눈에 */
+.glance { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+.glance button { all: unset; cursor: pointer; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 10px 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.glance button:hover { border-color: var(--ink-3); }
+.glance button[aria-pressed="true"] { border: 2px solid var(--ink); padding: 15px 9px 11px; }
+.glance .sizes { display: flex; align-items: flex-end; gap: 12px; }
+.glance b { font-size: 13px; } .glance span { font-size: 12px; color: var(--ink-3); }
+
+/* 변형 카드 */
+.variants { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.v { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+.v-head { padding: 16px 18px 12px; display: flex; flex-direction: column; gap: 6px; }
+.v-head .t { display: flex; align-items: center; gap: 8px; }
+.v-head p { color: var(--ink-2); font-size: 13px; line-height: 1.6; }
+.v-big { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
+.v-big > div { display: grid; place-items: center; padding: 22px 0; }
+.v-big .dk { background: var(--d-bg); }
+.lock { display: flex; align-items: center; gap: .32em; font-weight: 800; letter-spacing: -.045em; line-height: 1; }
+.lock svg { flex: none; }
+.v-lock { border-top: 1px solid var(--line); }
+.v-lock > div { padding: 18px 20px; display: flex; align-items: center; }
+.v-lock .dk { background: var(--d-bg); }
+.v-icons { border-top: 1px solid var(--line); padding: 16px 18px; display: flex; flex-direction: column; gap: 14px; }
+.row { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; }
+.fig { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.fig span { font-size: 11px; color: var(--ink-3); }
+.zoom { image-rendering: pixelated; width: 64px; height: 64px; border: 1px solid var(--line); border-radius: 4px; background: repeating-conic-gradient(#F3F4F6 0 25%, #fff 0 50%) 0 0 / 8px 8px; }
+.tabbar { display: flex; gap: 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); width: 100%; }
+.tabbar > div { flex: 1; display: flex; align-items: center; gap: 7px; padding: 7px 10px; font-size: 12px; min-width: 0; }
+.tabbar > div span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tabbar .lt { background: #DEE1E6; color: #1F2329; }
+.tabbar .dt { background: #2B2D31; color: #E6E8EB; }
+.v-notes { border-top: 1px solid var(--line); padding: 14px 18px 18px; font-size: 13px; line-height: 1.6; color: var(--ink-2); display: grid; gap: 4px; margin-top: auto; }
+.v-notes b { color: var(--ink); font-weight: 600; }
+.v-foot { display: flex; gap: 8px; padding: 0 18px 16px; }
+.mini-btn { all: unset; cursor: pointer; font-size: 12px; border: 1px solid var(--line-2); border-radius: 8px; padding: 5px 10px; }
+.mini-btn:hover { border-color: var(--ink); }
+
+/* 적용 모습 */
+.picker { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.picker button { all: unset; cursor: pointer; font-size: 13px; border-radius: 999px; padding: 6px 12px; background: var(--surface); border: 1px solid var(--line); }
+.picker button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); font-weight: 600; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.frame { border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
+.frame-cap { font-size: 12px; color: var(--ink-3); margin: 0 0 6px; }
+
+.hero { --h-bg: var(--bg); --h-ink: var(--ink); --h-ink-2: var(--ink-2); --h-line: var(--line); --h-btn: var(--ink); --h-on-btn: #fff; --h-surface: var(--surface); background: var(--h-bg); color: var(--h-ink); }
+.hero.dark { --h-bg: var(--d-bg); --h-ink: var(--d-ink); --h-ink-2: var(--d-ink-2); --h-line: var(--d-line); --h-btn: var(--d-ink); --h-on-btn: var(--d-bg); --h-surface: var(--d-surface); }
+.hero-nav { display: flex; align-items: center; gap: 18px; padding: 14px 22px; border-bottom: 1px solid var(--h-line); }
+.hero-nav nav { display: flex; gap: 14px; font-size: 13px; color: var(--h-ink-2); }
+.hero-nav .sp { flex: 1; }
+.hb { font-size: 13px; border-radius: 8px; padding: 7px 12px; border: 1px solid var(--h-line); white-space: nowrap; }
+.hb.pri { background: var(--h-btn); color: var(--h-on-btn); border-color: var(--h-btn); font-weight: 600; }
+.hero-body { padding: 48px 28px 52px; display: flex; flex-direction: column; gap: 14px; }
+.hero-body h4 { margin: 0; font-size: clamp(28px, 3.4vw, 44px); font-weight: 800; letter-spacing: -.035em; line-height: 1.2; }
+.hero-body .t3 { font-size: 18px; color: var(--h-ink-2); font-weight: 600; letter-spacing: -.01em; }
+.hero-body .desc { font-size: 14px; color: var(--h-ink-2); line-height: 1.7; max-width: 30em; }
+.hero-body .cta { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.hero-body .hb { font-size: 15px; padding: 10px 18px; border-radius: 10px; }
+
+.gh { --g-bg: #FFFFFF; --g-ink: #1F2328; --g-ink-2: #59636E; --g-line: #D1D9E0; --g-link: #0969DA; --g-badge: #EFF2F5; background: var(--g-bg); color: var(--g-ink); font-family: -apple-system, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif; }
+.gh.dark { --g-bg: #0D1117; --g-ink: #F0F6FC; --g-ink-2: #9198A1; --g-line: #3D444D; --g-link: #4493F8; --g-badge: #212830; }
+.gh-top { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-bottom: 1px solid var(--g-line); font-size: 13px; color: var(--g-ink-2); }
+.gh-top b { color: var(--g-ink); font-weight: 600; }
+.gh-body { padding: 30px 24px 26px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+.gh-body .one { font-size: 15px; font-weight: 600; }
+.gh-body .two { font-size: 14px; color: var(--g-ink-2); line-height: 1.6; max-width: 34em; }
+.gh-links { font-size: 13px; color: var(--g-link); display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.gh-links i { color: var(--g-ink-2); font-style: normal; }
+.gh-badges { display: flex; gap: 6px; }
+.gh-badges span { font-size: 11px; border-radius: 4px; overflow: hidden; display: inline-flex; font-family: Verdana, sans-serif; }
+.gh-badges span i { font-style: normal; background: #555; color: #fff; padding: 2px 6px; } .gh-badges span em { font-style: normal; background: #14171C; color: #fff; padding: 2px 6px; }
+.gh-hr { height: 1px; background: var(--g-line); width: 100%; }
+
+/* 집처럼 보이지 않게 */
+.avoid { display: grid; grid-template-columns: 1.1fr 2fr; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; align-items: center; }
+.avoid ul { margin: 0; padding-left: 18px; color: var(--ink-2); font-size: 13px; line-height: 1.8; }
+.avoid .vs { display: flex; gap: 18px; align-items: center; justify-content: center; }
+.avoid .vs .fig span { font-size: 12px; }
+
+table { border-collapse: collapse; width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 13px; }
+th, td { text-align: left; padding: 10px 12px; border-top: 1px solid var(--line); vertical-align: top; line-height: 1.55; }
+th { background: var(--surface-2); font-weight: 600; border-top: 0; }
+
+@media (max-width: 1080px) { .variants { grid-template-columns: minmax(0, 1fr); } .glance { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .pair, .avoid { grid-template-columns: minmax(0, 1fr); } .hero-nav nav { display: none; } h1 { font-size: 28px; } .glance { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Crewloft 로고 시안 — 두 갈래</h1>
+  <p class="lead">L1 <b>다락 지붕 + 불 켜진 창 하나</b>(창만 인주색)와 L2 <b>지붕 선 아래 크기 다른 점 셋</b>(팀)을 각각 세 가지로 그렸어요. 모두 <code>crewloft</code> 소문자 글자와 짝을 지은 가로형, 상징만(앱 아이콘 · 파비콘 16 · 32 · 512), 밝게 · 어둡게를 같이 봐요. 아래쪽에서 첫 화면 머리와 깃허브 README 머리에 놓은 모습도 고를 수 있어요.<br>
+  근거: <code>docs/product/specs/crewloft-brand.md</code> §6(결정 82) · 색은 <code>brand.md</code> 브랜드 B — 검정 · 흰색에 인주색 한 점만.</p>
+
+  <section>
+    <div class="sec-h"><h2>한눈에 — 여섯 개</h2><p>실제 크기 16 · 24 · 48. 누르면 아래 '적용 모습'이 그 시안으로 바뀌어요.</p></div>
+    <div class="glance" id="glance"></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><h2>L1 · 다락 지붕 + 창 하나</h2><span class="tag rec">브랜드 문서 제안</span><p>'대표 자리에 불이 켜져 있다' — 창 하나만 인주색.</p></div>
+    <div class="variants" id="L1"></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><h2>L2 · 지붕 아래 셋</h2><p>지붕(loft) 아래 크기가 다른 셋(crew). 셋 중 하나만 인주색 = 대표.</p></div>
+    <div class="variants" id="L2"></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><h2>적용 모습</h2><p>첫 화면 머리(한 줄 소개 T1 + 설명 줄 T3)와 깃허브 README 머리. 앱 화면에는 아직 넣지 않았어요.</p></div>
+    <div class="picker" id="picker"></div>
+    <p class="frame-cap">첫 화면 — 밝게 · 어둡게</p>
+    <div class="pair" id="heroPair"></div>
+    <p class="frame-cap" style="margin-top:18px">깃허브 README 머리 — 밝게 · 어둡게(깃허브 화면 밝기에 따라 그림이 바뀌게 <code>&lt;picture&gt;</code> 두 벌)</p>
+    <div class="pair" id="ghPair"></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><h2>집 · 부동산 앱처럼 보이지 않게</h2></div>
+    <div class="avoid">
+      <div class="vs" id="vs"></div>
+      <ul>
+        <li><b>벽 · 문 · 굴뚝을 그리지 않았어요.</b> 집 아이콘은 '지붕 + 벽 + 문' 세 개가 모여야 집으로 읽혀요. 여섯 시안 모두 지붕(또는 지붕 선)만 있고 벽 · 문이 없어요.</li>
+        <li><b>지붕 아래가 '사람 · 불빛'이에요.</b> 부동산 앱은 건물 모양 자체가 주인공인데, 여기는 지붕 아래 불 켜진 창(L1) 또는 팀(L2)이 주인공이에요.</li>
+        <li><b>비율:</b> 지붕은 낮고 넓게(물매 약 35–40°), 기운 지붕(외쪽 지붕)은 아예 좌우가 다르게 — 뾰족한 오각형 집 모양을 피했어요.</li>
+        <li><b>색:</b> 검정 · 흰색 + 인주색 한 점. 부동산 앱이 흔히 쓰는 파랑 · 초록 · 주황 지붕을 쓰지 않아요.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><h2>고를 것</h2></div>
+    <table>
+      <tr><th style="width:8%">#</th><th style="width:34%">질문</th><th>제안</th></tr>
+      <tr><td>N3-1</td><td>L1 · L2 중 어느 갈래로 갈까</td><td><b>L1-b 기운 다락</b>을 먼저 제안해요 — 16px에서도 '불 켜진 창'이 또렷하고, 좌우가 다른 지붕이라 집 아이콘과 가장 멀어요. L2는 팀이 보이는 대신 16px에서 점 셋이 뭉개지기 쉬워요(아래 확대 그림 참고).</td></tr>
+      <tr><td>N3-2</td><td>고른 갈래 안에서 변형 하나</td><td>L1이면 b(기운 다락), L2면 c(모인 셋) — 둘 다 작은 크기에서 모양이 남아요.</td></tr>
+      <tr><td>N3-3</td><td>앱 아이콘 바탕</td><td>검정 바탕 + 흰 상징 + 인주색 한 점(어두운 판을 기본, 밝은 판은 흰 바탕 문서용).</td></tr>
+    </table>
+    <p class="small" style="margin-top:10px">고른 뒤 할 일: 글자를 윤곽선(path)으로 바꾼 SVG 파일 · 파비콘 16 · 32 · 180 · 512 그림 · 공유 미리보기(1200×630) · 앱 왼쪽 막대와 홈 머리글 교체(서비스 이름 표기 바꾸기와 함께).</p>
+  </section>
+</div>
+
+<script>
+const C = {
+  light: { ink: '#14171C', decide: '#D23F26', bg: '#F3F4F6', tile: '#14171C', tileInk: '#FFFFFF', tileDecide: '#FF5A3C' },
+  dark:  { ink: '#F1F3F6', decide: '#FF5A3C', bg: '#0F1115', tile: '#14171C', tileInk: '#FFFFFF', tileDecide: '#FF5A3C' },
+};
+
+/* 상징 — 32칸 격자. ink = 지붕 · 점 색, accent = 인주색 한 점 */
+const MARKS = {
+  'L1-a': {
+    group: 'L1', name: '박공 다락', story: '낮고 넓은 박공(세모 지붕) 한 덩어리 = 지붕 밑 다락 한 칸. 그 가운데 불 켜진 창 하나. 벽 · 문 없이 지붕 밑 공간만 그렸어요.',
+    good: '좌우 대칭이라 가장 안정적 · 지붕 + 창으로 뜻이 바로 읽힘', care: '세모 + 붉은 점이라 아주 작게 보면 \'주의\' 표지처럼 읽힐 수 있음 — 물매를 낮춰(약 43°) 정삼각형을 피함',
+    svg: (ink, a) => `<path d="M2.5 26 16 12.5 29.5 26z" fill="${ink}" stroke="${ink}" stroke-width="2" stroke-linejoin="round"/><rect x="13" y="17.5" width="6" height="6" rx="1" fill="${a}"/>`,
+  },
+  'L1-b': {
+    group: 'L1', name: '기운 다락', story: '한쪽으로만 기운 지붕(외쪽 지붕)의 다락 한 칸. 높은 쪽 벽 아래 창 하나에만 불이 켜져 있어요 — 늦게까지 결정하는 대표 자리.',
+    good: '16px에서도 창이 또렷 · 좌우가 달라 집 아이콘과 가장 멂', care: '꽉 찬 덩어리라 무거워 보일 수 있음 — 모서리를 둥글게 다듬음', rec: true,
+    svg: (ink, a) => `<path d="M4 27V16.5L28 6v21z" fill="${ink}" stroke="${ink}" stroke-width="2" stroke-linejoin="round"/><rect x="17.5" y="15" width="6.5" height="6.5" rx="1" fill="${a}"/>`,
+  },
+  'L1-c': {
+    group: 'L1', name: '지붕과 창', story: '기운 지붕 한 획 + 그 아래 창 하나. 가장 덜어낸 모양 — 천창(지붕 창) 같기도 하고 책상 위 등 같기도 해요.',
+    good: '가장 가볍고 현대적 · 글자와 짝지으면 깔끔', care: '뜻이 가장 흐림(설명이 있어야 다락으로 읽힘)',
+    svg: (ink, a) => `<path d="M4.5 15.5 27.5 5.5" stroke="${ink}" stroke-width="4.2" stroke-linecap="round"/><rect x="11.5" y="16.5" width="9.5" height="9.5" rx="1.5" fill="${a}"/>`,
+  },
+  'L2-a': {
+    group: 'L2', name: '지붕 아래 셋', story: '낮은 지붕 선 아래 작은 · 큰 · 중간 셋이 나란히. 오른쪽 작은 하나가 인주색 — 팀 안의 대표.',
+    good: '팀(crew) + 공간(loft)이 한 번에', care: '점 셋 나란히는 흔함(로딩 표시 · 메뉴 버튼과 닮음)',
+    svg: (ink, a) => `<path d="M3 15.5 16 6l13 9.5" fill="none" stroke="${ink}" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8.5" cy="23.5" r="3.5" fill="${ink}"/><circle cx="17" cy="22" r="5" fill="${ink}"/><circle cx="25.2" cy="24" r="3" fill="${a}"/>`,
+  },
+  'L2-b': {
+    group: 'L2', name: '자라는 셋', story: '기운 지붕 아래 셋이 점점 커져요 — 작게 시작해 자라는 회사. 가장 작은 첫 점(시작한 사람)이 인주색.',
+    good: '\'회사가 자라면 사무실도 자란다\'가 보임 · 비대칭', care: '막대그래프 · 신호 세기 아이콘과 닮을 수 있음',
+    svg: (ink, a) => `<path d="M3.5 13.5 28.5 4.5" stroke="${ink}" stroke-width="3.4" stroke-linecap="round"/><circle cx="7" cy="24.5" r="2.8" fill="${a}"/><circle cx="14.6" cy="23" r="4.3" fill="${ink}"/><circle cx="23.6" cy="21.3" r="6" fill="${ink}"/>`,
+  },
+  'L2-c': {
+    group: 'L2', name: '모인 셋', story: '지붕 아래 둘이 나란히, 하나는 그 사이 위에 — 모여서 이야기하는 팀. 위의 작은 하나가 인주색(대표가 가운데서 봐요).',
+    good: '점 셋 나란히보다 개성 있음 · 작은 크기에서 덩어리로 남음', care: '가까이 보면 사람 얼굴 · 발자국처럼 보일 수도',
+    svg: (ink, a) => `<path d="M3 16 16 6.5 29 16" fill="none" stroke="${ink}" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10.5" cy="23.5" r="4.6" fill="${ink}"/><circle cx="22" cy="24" r="4.1" fill="${ink}"/><circle cx="16.2" cy="16.4" r="2.9" fill="${a}"/>`,
+  },
+};
+
+const mark = (id, size, ink, a, extra = '') => `<svg width="${size}" height="${size}" viewBox="0 0 32 32" ${extra} aria-hidden="true">${MARKS[id].svg(ink, a)}</svg>`;
+/* 앱 아이콘 · 파비콘 — 둥근 네모 바탕 위에 상징(가운데 70%) */
+const tileSvg = (id, mode = 'dark') => {
+  const bg = mode === 'dark' ? '#14171C' : '#FFFFFF', ink = mode === 'dark' ? '#FFFFFF' : '#14171C', a = mode === 'dark' ? '#FF5A3C' : '#D23F26';
+  const stroke = mode === 'dark' ? '' : `stroke="#CDD2D8" stroke-width=".6"`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x=".3" y=".3" width="31.4" height="31.4" rx="7.2" fill="${bg}" ${stroke}/><g transform="translate(4.8 4.8) scale(.7)">${MARKS[id].svg(ink, a)}</g></svg>`;
+};
+const tile = (id, size, mode) => tileSvg(id, mode).replace('<svg ', `<svg width="${size}" height="${size}" `);
+const lockup = (id, px, mode) => {
+  const c = C[mode];
+  return `<span class="lock" style="font-size:${px}px;color:${c.ink}">${mark(id, Math.round(px * 1.18), c.ink, c.decide)}<span>crewloft</span></span>`;
+};
+
+/* 한눈에 */
+const glance = document.getElementById('glance');
+for (const id of Object.keys(MARKS)) {
+  const b = document.createElement('button');
+  b.dataset.id = id;
+  b.innerHTML = `<div class="sizes">${mark(id, 16, C.light.ink, C.light.decide)}${mark(id, 24, C.light.ink, C.light.decide)}${mark(id, 48, C.light.ink, C.light.decide)}</div><b>${id} · ${MARKS[id].name}</b>${MARKS[id].rec ? '<span>먼저 제안</span>' : '<span>&nbsp;</span>'}`;
+  b.onclick = () => { pick(id); document.getElementById('picker').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  glance.append(b);
+}
+
+/* 16px 판을 실제로 16칸에 그린 뒤 확대해 보여 준다 — 뭉개짐 확인용 */
+function raster(canvas, svg) {
+  const img = new Image();
+  img.onload = () => { const g = canvas.getContext('2d'); g.clearRect(0, 0, 16, 16); g.drawImage(img, 0, 0, 16, 16); };
+  img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+function download(name, svg) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+  a.download = name; a.click();
+}
+
+for (const [id, m] of Object.entries(MARKS)) {
+  const el = document.createElement('article');
+  el.className = 'v';
+  el.innerHTML = `
+    <div class="v-head"><div class="t"><h3>${id} · ${m.name}</h3>${m.rec ? '<span class="tag rec">먼저 제안</span>' : ''}</div><p>${m.story}</p></div>
+    <div class="v-big"><div>${mark(id, 112, C.light.ink, C.light.decide)}</div><div class="dk">${mark(id, 112, C.dark.ink, C.dark.decide)}</div></div>
+    <div class="v-lock"><div>${lockup(id, 34, 'light')}</div><div class="dk">${lockup(id, 34, 'dark')}</div></div>
+    <div class="v-icons">
+      <div class="row">
+        <div class="fig">${tile(id, 96, 'dark')}<span>앱 아이콘 512(줄여 보임)</span></div>
+        <div class="fig">${tile(id, 96, 'light')}<span>밝은 판</span></div>
+        <div class="fig">${tile(id, 32, 'dark')}<span>32</span></div>
+        <div class="fig">${tile(id, 16, 'dark')}<span>16</span></div>
+        <div class="fig"><canvas class="zoom" width="16" height="16"></canvas><span>16 확대</span></div>
+      </div>
+      <div class="tabbar">
+        <div class="lt">${tile(id, 16, 'dark')}<span>crewloft — 내 사무실</span></div>
+        <div class="dt">${tile(id, 16, 'dark')}<span>crewloft — 내 사무실</span></div>
+      </div>
+    </div>
+    <div class="v-notes"><div><b>좋은 점</b> ${m.good}</div><div><b>주의</b> ${m.care}</div></div>
+    <div class="v-foot"><button class="mini-btn" data-dl="mark">상징 SVG</button><button class="mini-btn" data-dl="tile">앱 아이콘 SVG</button><button class="mini-btn" data-show>적용 모습 보기</button></div>`;
+  raster(el.querySelector('canvas'), tileSvg(id, 'dark'));
+  el.querySelector('[data-dl=mark]').onclick = () => download(`crewloft-${id}-mark.svg`, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">${m.svg(C.light.ink, C.light.decide)}</svg>`);
+  el.querySelector('[data-dl=tile]').onclick = () => download(`crewloft-${id}-icon.svg`, tileSvg(id, 'dark'));
+  el.querySelector('[data-show]').onclick = () => { pick(id); document.getElementById('picker').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  document.getElementById(m.group).append(el);
+}
+
+/* 적용 모습 */
+const picker = document.getElementById('picker');
+for (const id of Object.keys(MARKS)) {
+  const b = document.createElement('button');
+  b.dataset.id = id; b.textContent = `${id} · ${MARKS[id].name}`;
+  b.onclick = () => pick(id);
+  picker.append(b);
+}
+function hero(id, mode) {
+  return `<div class="frame hero ${mode}">
+    <div class="hero-nav">${lockup(id, 20, mode)}<nav><span>어떻게 돌아가나</span><span>첫 주 결과물</span><span>요금</span></nav><span class="sp"></span><span class="hb">로그인</span><span class="hb pri">무료로 시작</span></div>
+    <div class="hero-body">
+      <h4>혼자 시작해도, 팀과 함께.</h4>
+      <p class="t3">팀은 일하고, 대표는 결정해요.</p>
+      <p class="desc">하려는 사업을 말하면 매니저가 계획을 짜고 AI 팀을 꾸려요. 모든 과정은 회사와 함께 자라는 3D 사무실에서 보여요.</p>
+      <div class="cta"><span class="hb pri">내 회사 시작하기</span><span class="hb">견본 사무실 보기</span></div>
+    </div></div>`;
+}
+function gh(id, mode) {
+  return `<div class="frame gh ${mode}">
+    <div class="gh-top">${tile(id, 16, 'dark')}<span>crewloft / <b>crewloft</b></span><span style="flex:1"></span><span>README.md</span></div>
+    <div class="gh-body">
+      ${lockup(id, 40, mode)}
+      <div class="one">Start alone. Work as a team.</div>
+      <div class="two">Your crew does the work. You make the calls.<br>An open-source AI startup team that works in a 3D office you can watch. Self-hosted, your data, your AI account.</div>
+      <div class="gh-badges"><span><i>license</i><em>AGPL-3.0</em></span><span><i>node</i><em>&gt;=24</em></span></div>
+      <div class="gh-links"><span>한국어</span><i>·</i><span>Quick start</span><i>·</i><span>Docs</span><i>·</i><span>Contributing</span></div>
+      <div class="gh-hr"></div>
+    </div></div>`;
+}
+function pick(id) {
+  for (const b of document.querySelectorAll('#picker button, #glance button')) b.setAttribute('aria-pressed', String(b.dataset.id === id));
+  document.getElementById('heroPair').innerHTML = hero(id, 'light') + hero(id, 'dark');
+  document.getElementById('ghPair').innerHTML = gh(id, 'light') + gh(id, 'dark');
+  try { localStorage.setItem('crewloft-logo-pick', id); } catch {}
+}
+let first = 'L1-b';
+try { const s = localStorage.getItem('crewloft-logo-pick'); if (s && MARKS[s]) first = s; } catch {}
+const q = new URLSearchParams(location.search).get('v'); if (q && MARKS[q]) first = q;
+pick(first);
+
+/* 피한 것 — 흔한 집 아이콘과 나란히 */
+const house = `<svg width="56" height="56" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 15 16 5l12 10M7 13v14h18V13" fill="none" stroke="#8A919C" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/><rect x="13.5" y="19" width="5" height="8" fill="#8A919C"/><path d="M3 29 29 3" stroke="#D23F26" stroke-width="2"/></svg>`;
+document.getElementById('vs').innerHTML = `<div class="fig">${house}<span>흔한 집 아이콘(피함)</span></div><div class="fig">${mark('L1-b', 56, C.light.ink, C.light.decide)}<span>L1-b</span></div><div class="fig">${mark('L2-c', 56, C.light.ink, C.light.decide)}<span>L2-c</span></div>`;
+</script>
+</body>
+</html>

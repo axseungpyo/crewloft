@@ -1,0 +1,92 @@
+// 설계도 견본 — 회사 설명 "뇌과학 기반 수면 개선 기술을 연구하고 논문·특허·기술 블로그로 알리는 1인 R&D 스타트업"을 받은 매니저(AI)가 쓸 출력의 예시.
+// (스파이크: 가짜 AI로 확인 — 형식·조립 확인용 견본)
+export default {
+  version: 1,
+  title: '뉴로랩 연구소',
+  domain: 'R&D',
+  style: { floor: 'epoxy', floorColor: '#DCE3E7', wall: '#EEF1F3', accent: '#2F7F8A', light: 'cool', windows: true },
+  rooms: [
+    {
+      id: 'wetlab', name: '실험실', walls: 'glass', size: 'l', color: '#2F7F8A',
+      stations: [{ role: 'researcher', station: 'lab_bench', count: 2, label: '실험 연구', extras: ['microscope', 'beaker_set'] }],
+      props: ['fume_hood', 'centrifuge', 'lab_fridge'], facilities: [],
+    },
+    {
+      id: 'analysis', name: '분석실', walls: 'open', size: 'm', color: '#3E6A8A',
+      stations: [
+        { role: 'writer', station: 'desk', count: 2, label: '논문·보고서', extras: [] },
+        { role: 'designer', station: 'desk', count: 1, label: '데이터 시각화', extras: [] },
+      ],
+      props: ['plant'], facilities: ['board', 'power'],
+    },
+    {
+      id: 'pi', name: '연구책임자실', walls: 'glass', size: 's', color: '#1F3B5B',
+      stations: [{ role: 'manager', station: 'desk', count: 1, label: '연구 총괄', extras: [] }],
+      props: ['armchair', 'plant'], facilities: ['decisions'],
+    },
+    {
+      id: 'archive', name: '자료실', walls: 'glass', size: 's', color: '#8A6A3A',
+      stations: [], props: ['long_table'], facilities: ['knowledge', 'milestones'],
+    },
+  ],
+  facilities: {
+    board: { form: 'whiteboard', label: '실험 일정판' },
+    decisions: { form: 'desk', label: '연구 책임자 승인' },
+    power: { form: 'compute_tower', label: '계산 서버' },
+    knowledge: { form: 'binder_cabinet', label: '실험 노트 보관함' },
+    milestones: { form: 'plaque', label: '특허·논문' },
+  },
+  recipes: {
+    microscope: { parts: [
+      { s: 'box', d: [0.22, 0.04, 0.28], p: [0, 0.02, 0], c: '#E9ECEF' },
+      { s: 'box', d: [0.05, 0.34, 0.06], p: [0, 0.2, -0.09], c: '#E9ECEF' },
+      { s: 'box', d: [0.05, 0.06, 0.2], p: [0, 0.37, -0.02], c: '#E9ECEF' },
+      { s: 'box', d: [0.16, 0.015, 0.14], p: [0, 0.15, 0.03], m: 'black' },
+      { s: 'box', d: [0.08, 0.08, 0.1], p: [0, 0.41, 0.05], c: '#E9ECEF' },
+      { s: 'cyl', d: [0.015, 0.1], p: [-0.022, 0.48, 0.09], r: [-30, 0, 0], m: 'black' },
+      { s: 'cyl', d: [0.015, 0.1], p: [0.022, 0.48, 0.09], r: [-30, 0, 0], m: 'black' },
+      { s: 'cyl', d: [0.02, 0.07], p: [0, 0.33, 0.06], m: 'metal' },
+      { s: 'cyl', d: [0.022, 0.01], p: [0, 0.135, 0.03], m: 'glow', c: '#DFF3FF' },
+    ] },
+    beaker_set: { parts: [
+      { s: 'box', d: [0.3, 0.02, 0.14], p: [0, 0.01, 0], m: 'metal' },
+      { s: 'cyl', d: [0.035, 0.12], p: [-0.09, 0.08, 0], m: 'glass' },
+      { s: 'cyl', d: [0.03, 0.06], p: [-0.09, 0.05, 0], m: 'glow', c: '#5BC0EB' },
+      { s: 'cyl', d: [0.03, 0.16], p: [0, 0.1, 0], m: 'glass' },
+      { s: 'cyl', d: [0.025, 0.07], p: [0, 0.055, 0], m: 'glow', c: '#9BE15D' },
+      { s: 'cone', d: [0.045, 0.11], p: [0.09, 0.075, 0], m: 'glass' },
+      { s: 'cyl', d: [0.035, 0.03], p: [0.09, 0.035, 0], m: 'glow', c: '#F4A259' },
+    ] },
+    fume_hood: { parts: [
+      { s: 'box', d: [1.4, 0.85, 0.75], p: [0, 0.425, 0], c: '#E6E9EC' },
+      { s: 'box', d: [1.44, 0.04, 0.79], p: [0, 0.87, 0], c: '#2F3A40' },
+      { s: 'box', d: [1.4, 1.25, 0.06], p: [0, 1.5, -0.35], c: '#E6E9EC' },
+      { s: 'box', d: [0.06, 1.25, 0.75], p: [-0.7, 1.5, 0], c: '#E6E9EC' },
+      { s: 'box', d: [0.06, 1.25, 0.75], p: [0.7, 1.5, 0], c: '#E6E9EC' },
+      { s: 'box', d: [1.4, 0.32, 0.78], p: [0, 2.26, 0], c: '#DDE2E6' },
+      { s: 'box', d: [1.28, 0.7, 0.02], p: [0, 1.3, 0.36], m: 'glass' },
+      { s: 'box', d: [1.2, 0.03, 0.05], p: [0, 2.08, 0.3], m: 'glow', c: '#F2FBFF' },
+      { s: 'cyl', d: [0.12, 0.5], p: [0, 2.66, -0.1], m: 'metal' },
+      { s: 'box', d: [0.3, 0.08, 0.02], p: [0.45, 2.26, 0.4], m: 'screen', c: '#2F7F8A' },
+    ] },
+    centrifuge: { parts: [
+      { s: 'box', d: [0.62, 0.72, 0.52], p: [0, 0.36, 0], c: '#E6E9EC' },
+      { s: 'cyl', d: [0.22, 0.25], p: [0, 0.85, 0], c: '#F4F6F8' },
+      { s: 'cyl', d: [0.2, 0.03], p: [0, 0.99, 0], c: '#2F7F8A' },
+      { s: 'box', d: [0.18, 0.08, 0.02], p: [0, 0.84, 0.22], m: 'screen', c: '#2F7F8A' },
+      { s: 'cyl', d: [0.03, 0.02], p: [0, 0.03, 0.2], r: [90, 0, 0], m: 'black' },
+    ] },
+    lab_fridge: { parts: [
+      { s: 'box', d: [0.72, 1.85, 0.7], p: [0, 0.925, 0], c: '#F4F6F8' },
+      { s: 'box', d: [0.6, 1.55, 0.02], p: [0, 1.0, 0.36], m: 'glass' },
+      { s: 'box', d: [0.62, 0.02, 0.6], p: [0, 0.55, 0.02], c: '#C9D2D8' },
+      { s: 'box', d: [0.62, 0.02, 0.6], p: [0, 1.0, 0.02], c: '#C9D2D8' },
+      { s: 'box', d: [0.62, 0.02, 0.6], p: [0, 1.45, 0.02], c: '#C9D2D8' },
+      { s: 'cyl', d: [0.03, 0.14], p: [-0.18, 1.08, 0.1], m: 'glow', c: '#5BC0EB' },
+      { s: 'cyl', d: [0.03, 0.14], p: [0, 1.08, 0.1], m: 'glow', c: '#F4A259' },
+      { s: 'cyl', d: [0.03, 0.14], p: [0.18, 0.63, 0.1], m: 'glow', c: '#9BE15D' },
+      { s: 'box', d: [0.03, 0.5, 0.03], p: [0.28, 1.1, 0.39], m: 'metal' },
+      { s: 'box', d: [0.22, 0.07, 0.01], p: [0, 1.8, 0.36], m: 'screen', c: '#2F7F8A' },
+    ] },
+  },
+};

@@ -1,0 +1,108 @@
+// 설계도 견본 — 회사 설명 "인디 아티스트 음원을 기획·제작하고 SNS로 홍보하는 1인 레이블"을 받은 매니저(AI)가 쓸 출력의 예시.
+// (스파이크: 가짜 AI로 확인 — 실제 AI 출력이 아니라 형식·조립 확인용 견본이다)
+export default {
+  version: 1,
+  title: '사운드웨이브 스튜디오',
+  domain: '음악 제작',
+  style: { floor: 'wood', floorColor: '#7A5236', wall: '#3A3640', accent: '#E8892B', light: 'warm', windows: false },
+  rooms: [
+    {
+      id: 'control', name: '컨트롤룸', walls: 'glass', size: 'm', color: '#6A4C9C',
+      stations: [
+        { role: 'designer', station: 'console', count: 1, label: '사운드 엔지니어', extras: ['studio_monitor', 'studio_monitor'] },
+        { role: 'manager', station: 'desk', count: 1, label: '프로듀서', extras: ['studio_monitor'] },
+      ],
+      props: [], facilities: ['decisions', 'power'],
+    },
+    {
+      id: 'booth', name: '녹음 부스', walls: 'glass', size: 's', color: '#B4664C',
+      stations: [], props: [{ name: 'mic_stand', count: 2 }, { name: 'drum_kit' }, { name: 'guitar_amp' }], facilities: [],
+    },
+    {
+      id: 'writing', name: '작곡실', walls: 'open', size: 'm', color: '#2E8A63',
+      stations: [
+        { role: 'writer', station: 'desk', count: 2, label: '작사·작곡', extras: ['midi_keyboard'] },
+        { role: 'researcher', station: 'desk', count: 1, label: '레퍼런스 리서치', extras: ['headphone_stand'] },
+      ],
+      props: ['plant'], facilities: ['board'],
+    },
+    {
+      id: 'lounge', name: '리스닝 라운지', walls: 'open', size: 'm', color: '#C98A2E',
+      stations: [], props: ['sofa', 'vinyl_player', 'plant'], facilities: ['knowledge', 'milestones'],
+    },
+  ],
+  facilities: {
+    board: { form: 'dark_board', label: '트랙 보드' },
+    decisions: { form: 'console', label: '프로듀서 확인' },
+    power: { form: 'amp_rack', label: '앰프 랙' },
+    knowledge: { form: 'record_shelf', label: '레코드 선반' },
+    milestones: { form: 'gold_record', label: '골드 레코드' },
+  },
+  recipes: {
+    studio_monitor: { parts: [
+      { s: 'box', d: [0.2, 0.3, 0.22], p: [0, 0.15, 0], m: 'black', c: '#1E1E22' },
+      { s: 'cyl', d: [0.07, 0.02], p: [0, 0.11, 0.115], r: [90, 0, 0], m: 'metal', c: '#C9CED3' },
+      { s: 'cyl', d: [0.03, 0.02], p: [0, 0.23, 0.115], r: [90, 0, 0], m: 'metal', c: '#E8892B' },
+    ] },
+    midi_keyboard: { parts: [
+      { s: 'box', d: [0.9, 0.06, 0.26], p: [0, 0.03, 0], m: 'black' },
+      { s: 'box', d: [0.84, 0.025, 0.15], p: [0, 0.07, 0.045], c: '#F4F4F2' },
+      { s: 'box', d: [0.84, 0.02, 0.05], p: [0, 0.085, -0.025], c: '#16161A' },
+      { s: 'cyl', d: [0.018, 0.02], p: [-0.36, 0.075, -0.09], m: 'metal' },
+      { s: 'cyl', d: [0.018, 0.02], p: [-0.3, 0.075, -0.09], m: 'metal' },
+      { s: 'box', d: [0.06, 0.02, 0.06], p: [0.38, 0.075, -0.08], m: 'glow', c: '#E8892B' },
+    ] },
+    headphone_stand: { parts: [
+      { s: 'cyl', d: [0.07, 0.02], p: [0, 0.01, 0], m: 'black' },
+      { s: 'cyl', d: [0.012, 0.28], p: [0, 0.15, 0], m: 'metal' },
+      { s: 'torus', d: [0.09, 0.016], p: [0, 0.32, 0], m: 'black' },
+      { s: 'box', d: [0.05, 0.09, 0.07], p: [-0.09, 0.26, 0], m: 'black' },
+      { s: 'box', d: [0.05, 0.09, 0.07], p: [0.09, 0.26, 0], m: 'black' },
+    ] },
+    mic_stand: { parts: [
+      { s: 'cyl', d: [0.012, 1.45], p: [0, 0.78, 0], m: 'black' },
+      { s: 'cyl', d: [0.01, 0.5], p: [0.2, 0.1, 0], r: [0, 0, 70], m: 'black' },
+      { s: 'cyl', d: [0.01, 0.5], p: [-0.1, 0.1, -0.173], r: [0, 120, 70], m: 'black' },
+      { s: 'cyl', d: [0.01, 0.5], p: [-0.1, 0.1, 0.173], r: [0, 240, 70], m: 'black' },
+      { s: 'cyl', d: [0.009, 0.62], p: [0.24, 1.55, 0], r: [0, 0, 72], m: 'black' },
+      { s: 'cyl', d: [0.034, 0.15], p: [0.52, 1.6, 0], r: [0, 0, -20], m: 'metal', c: '#B9BDC2' },
+      { s: 'sph', d: [0.042], p: [0.55, 1.68, 0], m: 'metal', c: '#9AA1A9' },
+      { s: 'torus', d: [0.11, 0.008], p: [0.6, 1.72, 0], r: [0, 90, 0], m: 'black' },
+    ] },
+    drum_kit: { parts: [
+      { s: 'cyl', d: [0.28, 0.42], p: [0, 0.3, 0], r: [90, 0, 0], c: '#B4664C' },
+      { s: 'cyl', d: [0.27, 0.02], p: [0, 0.3, 0.22], r: [90, 0, 0], c: '#F2EEE6' },
+      { s: 'cyl', d: [0.18, 0.14], p: [-0.42, 0.62, 0.25], c: '#B4664C' },
+      { s: 'cyl', d: [0.012, 0.55], p: [-0.42, 0.28, 0.25], m: 'metal' },
+      { s: 'cyl', d: [0.13, 0.16], p: [-0.16, 0.72, 0.04], r: [20, 0, 0], c: '#B4664C' },
+      { s: 'cyl', d: [0.13, 0.16], p: [0.16, 0.72, 0.04], r: [20, 0, 0], c: '#B4664C' },
+      { s: 'cyl', d: [0.2, 0.42], p: [0.46, 0.36, 0.26], c: '#B4664C' },
+      { s: 'cyl', d: [0.17, 0.012], p: [-0.68, 0.95, 0.15], m: 'gold' },
+      { s: 'cyl', d: [0.01, 0.95], p: [-0.68, 0.47, 0.15], m: 'metal' },
+      { s: 'cyl', d: [0.23, 0.012], p: [-0.32, 1.32, -0.22], r: [15, 0, 0], m: 'gold' },
+      { s: 'cyl', d: [0.01, 1.3], p: [-0.32, 0.65, -0.22], m: 'metal' },
+      { s: 'cyl', d: [0.25, 0.012], p: [0.52, 1.22, -0.12], r: [-10, 0, 10], m: 'gold' },
+      { s: 'cyl', d: [0.01, 1.2], p: [0.52, 0.6, -0.12], m: 'metal' },
+      { s: 'cyl', d: [0.17, 0.08], p: [0, 0.5, 0.62], m: 'black' },
+      { s: 'cyl', d: [0.02, 0.46], p: [0, 0.23, 0.62], m: 'metal' },
+    ] },
+    guitar_amp: { parts: [
+      { s: 'box', d: [0.62, 0.52, 0.3], p: [0, 0.26, 0], m: 'black', c: '#1E1E1E' },
+      { s: 'box', d: [0.54, 0.32, 0.01], p: [0, 0.21, 0.155], m: 'fabric', c: '#3A3328' },
+      { s: 'box', d: [0.58, 0.08, 0.01], p: [0, 0.45, 0.155], m: 'gold' },
+      { s: 'box', d: [0.38, 0.48, 0.07], p: [0.62, 0.42, 0.05], r: [0, 0, 8], c: '#C0563F' },
+      { s: 'box', d: [0.05, 0.62, 0.03], p: [0.68, 0.96, 0.05], r: [0, 0, 8], m: 'wood' },
+      { s: 'box', d: [0.09, 0.14, 0.04], p: [0.72, 1.3, 0.05], r: [0, 0, 8], m: 'black' },
+      { s: 'box', d: [0.3, 0.04, 0.26], p: [0.6, 0.02, 0.05], m: 'black' },
+    ] },
+    vinyl_player: { parts: [
+      { s: 'box', d: [1.0, 0.6, 0.46], p: [0, 0.3, 0], m: 'wood', c: '#6B4E36' },
+      { s: 'box', d: [0.46, 0.08, 0.38], p: [-0.18, 0.64, 0], m: 'black' },
+      { s: 'cyl', d: [0.16, 0.02], p: [-0.2, 0.69, 0], c: '#111114' },
+      { s: 'cyl', d: [0.05, 0.022], p: [-0.2, 0.695, 0], c: '#E8892B' },
+      { s: 'box', d: [0.22, 0.015, 0.015], p: [-0.03, 0.7, 0.09], r: [0, 30, 0], m: 'metal' },
+      { s: 'box', d: [0.2, 0.32, 0.22], p: [0.32, 0.76, 0], m: 'black' },
+      { s: 'cyl', d: [0.06, 0.02], p: [0.32, 0.72, 0.115], r: [90, 0, 0], m: 'metal' },
+    ] },
+  },
+};

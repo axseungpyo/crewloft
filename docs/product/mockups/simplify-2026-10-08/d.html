@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D · 문서처럼 · 선과 여백</title>
+<meta name="color-scheme" content="light dark">
+<script>{ const t = new URLSearchParams(location.search).get('theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; }</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/web/css/base.css">
+<link rel="stylesheet" href="common.css">
+<script type="importmap">
+{ "imports": { "preact": "/node_modules/preact/dist/preact.mjs", "preact/hooks": "/node_modules/preact/hooks/dist/hooks.mjs", "htm": "/node_modules/htm/dist/htm.module.js" } }
+</script>
+<style>
+/* D — 지금 구조(왼쪽 메뉴 + 일 화면)는 그대로, 상자를 걷어 내고 선 · 여백 · 큰 글자 목록으로. 같은 일은 한 번만 */
+body { background: var(--surface); }
+.d-app { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; }
+.d-nav { position: sticky; top: 0; height: 100vh; padding: 28px 24px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px; }
+.d-nav .co { font-size: var(--fs-6); font-weight: var(--fw-3); margin-bottom: 24px; }
+.d-nav a { display: flex; align-items: baseline; gap: 8px; padding: 7px 0 7px 12px; color: var(--ink-2); text-decoration: none; font-size: var(--fs-5); margin-left: -12px; }
+.d-nav a:hover { color: var(--ink); }
+.d-nav a.on { color: var(--ink); font-weight: var(--fw-2); box-shadow: var(--sel-bar); }
+.d-nav a .n { color: var(--decide-text); font-weight: var(--fw-3); font-size: var(--fs-4); }
+.d-main { padding: 56px 64px 80px; display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 72px; max-width: 1180px; }
+.d-title .wk { color: var(--ink-3); font-size: var(--fs-4); font-weight: var(--fw-2); }
+.d-title h1 { font-size: var(--fs-10); letter-spacing: -.035em; line-height: 1.15; margin: 6px 0 10px; }
+.d-title p { font-size: var(--fs-5); color: var(--ink-2); }
+.d-title p b { color: var(--decide-text); font-weight: var(--fw-2); }
+.d-h { font-size: var(--fs-3); font-weight: var(--fw-2); color: var(--ink-3); letter-spacing: .04em; margin: 52px 0 0; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+.d-list { list-style: none; margin: 0; padding: 0; }
+.d-row { border-bottom: 1px solid var(--line); }
+.d-row > button { width: 100%; display: grid; grid-template-columns: 40px 1fr auto; gap: 4px 12px; align-items: baseline; border: 0; background: none; text-align: left; padding: 22px 0; color: var(--ink); }
+.d-row .no { font-size: var(--fs-5); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.d-row .t { font-size: var(--fs-7); font-weight: var(--fw-3); letter-spacing: -.02em; line-height: 1.35; }
+.d-row > button:hover .t { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; }
+.d-row .meta { grid-column: 2; display: flex; gap: 10px; align-items: center; color: var(--ink-2); font-size: var(--fs-4); flex-wrap: wrap; }
+.d-row .turn { color: var(--decide-text); font-weight: var(--fw-2); font-size: var(--fs-4); display: inline-flex; gap: 6px; align-items: center; white-space: nowrap; }
+.d-row .chev { color: var(--ink-3); transition: transform .2s; display: inline-flex; }
+.d-row.open .chev { transform: rotate(90deg); }
+.d-body { padding: 0 0 28px 52px; display: flex; flex-direction: column; gap: 16px; }
+.d-body .part { display: flex; flex-direction: column; gap: 12px; padding-top: 4px; }
+.d-body .part + .part { border-top: 1px solid var(--line); padding-top: 20px; }
+.d-body .q { font-size: var(--fs-6); font-weight: var(--fw-2); line-height: 1.5; }
+.d-body .why { color: var(--ink-2); font-size: var(--fs-4); }
+.d-body .acts { display: flex; gap: 8px; flex-wrap: wrap; }
+.d-body .was { color: var(--ink-3); display: flex; gap: 6px; align-items: center; font-size: var(--fs-4); }
+.d-body .was .ico { color: var(--ok); }
+.d-docs { list-style: none; margin: 0; padding: 0; }
+.d-docs li { display: flex; gap: 14px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: var(--fs-5); }
+.d-docs li span { color: var(--ink-3); font-size: var(--fs-3); margin-left: auto; }
+.d-side h2 { font-size: var(--fs-3); font-weight: var(--fw-2); color: var(--ink-3); letter-spacing: .04em; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+.d-side ul { list-style: none; margin: 0 0 40px; padding: 0; }
+.d-side li { padding: 14px 0; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px; }
+.d-side li b { font-size: var(--fs-5); }
+.d-side li small { color: var(--ink-3); font-size: var(--fs-2); }
+.d-side li .now { font-size: var(--fs-3); color: var(--ink-2); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.d-side .office { display: inline-flex; gap: 6px; align-items: center; font-size: var(--fs-4); color: var(--ink); font-weight: var(--fw-2); text-decoration: none; }
+.d-side .office:hover { text-decoration: underline; }
+@media (max-width: 1100px) { .d-main { grid-template-columns: 1fr; gap: 0; padding: 40px 40px 64px; } .d-side { margin-top: 52px; } }
+@media (max-width: 760px) {
+  .d-app { grid-template-columns: 1fr; min-height: 0; }
+  .d-nav { position: sticky; z-index: 5; height: auto; flex-direction: row; align-items: center; gap: 18px; padding: 12px 16px; border-right: 0; border-bottom: 1px solid var(--line); background: var(--surface); overflow-x: auto; white-space: nowrap; }
+  .d-nav .co { margin: 0 6px 0 0; font-size: var(--fs-5); }
+  .d-nav a { margin: 0; padding: 4px 0; font-size: var(--fs-4); }
+  .d-nav a.on { box-shadow: inset 0 -2px 0 var(--accent); }
+  .d-main { padding: 28px 16px 48px; }
+  .d-title h1 { font-size: var(--fs-9); }
+  .d-h { margin-top: 36px; }
+  .d-row > button { grid-template-columns: 28px 1fr auto; padding: 18px 0; }
+  .d-row .t { font-size: var(--fs-6); }
+  .d-row .turn .lb { display: none; }
+  .d-body { padding-left: 0; }
+}
+</style>
+</head>
+<body>
+<div class="d-app">
+  <nav class="d-nav" aria-label="메뉴">
+    <div class="co">골목커피</div>
+    <a href="a.html">사무실</a>
+    <a href="#" class="on">일 <span class="n" id="navN"></span></a>
+    <a href="#">회사</a>
+    <a href="#">설정</a>
+  </nav>
+  <main class="d-main">
+    <div>
+      <div class="d-title"><span class="wk">10월 2주차</span><h1>이번 주 일</h1><p id="sum"></p></div>
+      <h2 class="d-h">할 일 세 개</h2>
+      <ol class="d-list" id="list"></ol>
+      <h2 class="d-h">이번 주 문서</h2>
+      <ul class="d-docs" id="docs"></ul>
+    </div>
+    <aside class="d-side">
+      <h2>팀</h2>
+      <ul id="team"></ul>
+      <a class="office" href="a.html"><span data-ic="office"></span>사무실에서 보기</a>
+    </aside>
+  </main>
+</div>
+
+<section class="sx-memo" id="memo"><div>
+  <span class="sx-eyebrow">견본 D</span>
+  <h2>문서처럼 · 선과 여백</h2>
+  <p class="lead">지금 구조(왼쪽 메뉴 + 일 화면)를 그대로 두고 상자만 걷었어요. 같은 일은 한 줄로 한 번만 나오고, 대표님 차례인 줄에만 인주색 '대표님 차례'가 붙어요. 줄을 누르면 그 자리에서 펼쳐져요.</p>
+  <div class="counts"><div><b>4</b><span>메뉴(지금 5 — 결정함을 일에 합침)</span></div><div><b>1</b><span>같은 일이 나오는 횟수(지금 3)</span></div><div><b>0</b><span>탭 · 숫자 카드</span></div></div>
+  <table>
+    <thead><tr><th>숨긴 것</th><th>옮긴 곳</th></tr></thead>
+    <tbody>
+      <tr><td>위 카드 · 열 제목 · 안 항목으로 세 번 나오던 블록</td><td>'할 일 세 개' 한 줄씩. 되묻기는 그 일(원가표) 줄 안으로</td></tr>
+      <tr><td>숫자 카드 네 개(대부분 0)</td><td>제목 아래 문장 한 줄('대표님 차례는 2개예요') — 0이면 문장이 바뀜</td></tr>
+      <tr><td>화면마다 탭 3개 · 캘린더 두 군데</td><td>탭 없음. 캘린더는 '문서'나 '회사' 한 곳으로(제안)</td></tr>
+      <tr><td>결정함 메뉴 · 등급 세 개</td><td>'일'에 합침 — 줄마다 대표님 차례 표시. 밖으로 나가는 글은 펼친 안에서 '원문 확인 → 승인'</td></tr>
+      <tr><td>회차 · 내 개입 · 신뢰/원고 · 레벨</td><td>'회사' 메뉴로. 이 화면에는 주차 이름만</td></tr>
+      <tr><td>문서 메뉴</td><td>'일' 화면 아래 '이번 주 문서' 목록으로</td></tr>
+      <tr><td>3D 사무실</td><td>'사무실' 메뉴와 오른쪽 '사무실에서 보기'</td></tr>
+    </tbody>
+  </table>
+  <p class="lead" style="margin-top:20px">주의: 가장 덜 바꾸는 안이라 만들기 쉽지만, 3D가 여전히 따로 떨어져 있어 '보이는 사무실'의 힘은 A보다 약해요.</p>
+  <nav><a href="index.html">네 개 비교</a><a href="a.html">A 사무실</a><a href="b.html">B 대화</a><a href="c.html">C 오늘 할 일</a><a href="d.html" class="on">D 문서</a></nav>
+</div></section>
+
+<script type="module">
+import { SCENE, ic, esc, costTable, pill } from './kit.js';
+for (const el of document.querySelectorAll('[data-ic]')) el.innerHTML = ic(el.dataset.ic, 16);
+
+const st = { open: new URLSearchParams(location.search).get('open') ?? null, ask: null, cost: null, post: 0 };
+const was = (t) => `<p class="was">${ic('check', 16)}${esc(t)}</p>`;
+const rows = () => [
+  { key: 'cost', t: '메뉴 원가표', who: '미나', mine: !st.ask || !st.cost, st: !st.ask || !st.cost ? ['me', '대표 확인'] : st.cost === 'fix' ? ['working', '일하는 중'] : ['done', '끝'], note: !st.ask ? '질문 하나 · 확인 하나' : !st.cost ? '확인 하나' : '' },
+  { key: 'res', t: '상권 조사', who: '레오', mine: false, st: ['working', '일하는 중'], note: `${SCENE.research.eta}까지` },
+  { key: 'post', t: '가게 소개 문구', who: '하나', mine: st.post < 2, st: st.post < 2 ? ['me', '대표 확인'] : ['done', '끝'], note: st.post < 2 ? '밖으로 나가는 글' : '연습 게시' },
+];
+function body(key) {
+  if (key === 'cost') {
+    const a = SCENE.ask;
+    const ask = st.ask ? was(`질문에 답했어요 — ${a.options.find((o) => o.key === st.ask).label}`)
+      : `<span class="sx-eyebrow mine">${ic('question', 14)}미나의 질문</span><p class="q">${esc(a.text)}</p><p class="why">${esc(a.why)}</p><div class="acts">${a.options.map((o) => `<button class="btn" data-ask="${o.key}">${esc(o.label)}</button>`).join('')}</div>`;
+    const cost = st.cost ? was(st.cost === 'ok' ? '원가표를 확정했어요' : '고칠 점을 보냈어요')
+      : `${costTable()}<div class="acts"><button class="btn decide" data-cost="ok">이대로 OK</button><button class="btn" data-cost="fix">고쳐 주세요</button></div>`;
+    return `<div class="part">${ask}</div><div class="part">${cost}</div>`;
+  }
+  if (key === 'res') return `<div class="part"><p class="q">${esc(SCENE.research.now)}</p><p class="why">대표님이 할 일은 없어요. 끝나면 '상권 조사 메모'로 넘어와요.</p></div>`;
+  const p = SCENE.post, s = st.post;
+  if (s >= 2) return `<div class="part">${was('승인했어요 — 연습 게시로 올렸어요(실제로 나가지 않음). 승인한 원문은 고정돼요.')}</div>`;
+  return `<div class="part"><span class="sx-eyebrow mine">${ic('send', 14)}${esc(p.where)}에 나가요</span><div class="sx-steps"><b class="${s === 0 ? 'on' : 'done'}">1 원문 확인</b><i></i><b class="${s === 1 ? 'on' : ''}">2 승인</b></div>
+    <blockquote class="sx-quote">${esc(p.text)}</blockquote>
+    ${s === 0 ? `<div class="acts"><button class="btn decide" data-post="read">원문 그대로 확인했어요</button><button class="btn" data-post="fix">고쳐 주세요</button></div>`
+      : `<p class="why">이 글자 그대로 나가요. 승인하면 연습 게시로 올라가요.</p><div class="acts"><button class="btn decide" data-post="ok">승인하기</button><button class="btn quiet" data-post="back">다시 읽기</button></div>`}</div>`;
+}
+function render() {
+  const R = rows(), mine = R.filter((r) => r.mine).length;
+  document.getElementById('navN').textContent = mine || '';
+  document.getElementById('sum').innerHTML = mine ? `할 일 세 개 가운데 <b>대표님 차례는 ${mine}개</b>예요.` : '대표님 차례는 없어요. 팀이 이어서 일하는 중이에요.';
+  document.getElementById('list').innerHTML = R.map((r, i) => `<li class="d-row${st.open === r.key ? ' open' : ''}"><button data-row="${r.key}" aria-expanded="${st.open === r.key}">
+      <span class="no">0${i + 1}</span><span class="t">${esc(r.t)}</span>
+      <span>${r.mine ? `<span class="turn">${ic('decisions', 15)}<span class="lb">대표님 차례</span></span>` : ''} <span class="chev">${ic('play', 12)}</span></span>
+      <span class="meta">${esc(r.who)} ${r.mine ? '' : pill(...r.st)}${r.note ? ` <span>${esc(r.note)}</span>` : ''}</span></button>
+    ${st.open === r.key ? `<div class="d-body">${body(r.key)}</div>` : ''}</li>`).join('');
+  const word = (d) => (d.title === '메뉴 원가표' && st.cost === 'ok' ? '끝' : d.title === '가게 소개 문구' && st.post >= 2 ? '끝' : d.word);
+  document.getElementById('docs').innerHTML = SCENE.docs.map((d) => `<li>${ic('note', 16)}${esc(d.title)}<span>${esc(d.who)} · ${word(d)}</span></li>`).join('');
+  const P = SCENE.people;
+  const now = { mina: R[0].mine ? ['me', '대표 확인', '대표님 답을 기다려요'] : ['working', '일하는 중', '다음 주 계획'], leo: ['working', '일하는 중', '상권 조사'], hana: R[2].mine ? ['me', '대표 확인', '소개 문구 승인을 기다려요'] : ['done', '끝', '소개 문구'] };
+  document.getElementById('team').innerHTML = Object.values(P).map((p) => `<li><b>${esc(p.name)}</b><small>${esc(p.roleFull)}</small><span class="now">${pill(now[p.id][0], now[p.id][1])}${esc(now[p.id][2])}</span></li>`).join('');
+}
+document.getElementById('list').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.row) st.open = st.open === b.dataset.row ? null : b.dataset.row;
+  if (b.dataset.ask) st.ask = b.dataset.ask;
+  if (b.dataset.cost) st.cost = b.dataset.cost;
+  if (b.dataset.post === 'read') st.post = 1;
+  if (b.dataset.post === 'back') st.post = 0;
+  if (b.dataset.post === 'ok' || b.dataset.post === 'fix') st.post = 2;
+  render();
+});
+render();
+</script>
+</body>
+</html>

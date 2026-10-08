@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>화면 단순화 견본</title>
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/web/css/base.css">
+<link rel="stylesheet" href="common.css">
+<style>
+body { background: var(--surface); }
+.i-wrap { max-width: 1120px; margin: 0 auto; padding: 64px 32px 96px; }
+.i-wrap > h1 { font-size: var(--fs-10); letter-spacing: -.035em; line-height: 1.15; margin: 8px 0 14px; }
+.i-lead { font-size: var(--fs-5); color: var(--ink-2); max-width: 760px; }
+.i-scene { margin-top: 18px; font-size: var(--fs-4); color: var(--ink-2); max-width: 760px; }
+.i-list { list-style: none; margin: 48px 0 0; padding: 0; border-top: 2px solid var(--ink); }
+.i-item { display: grid; grid-template-columns: 72px minmax(0, 1fr) 520px; gap: 28px; padding: 36px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.i-item .k { font-size: 56px; font-weight: var(--fw-3); line-height: 1; letter-spacing: -.04em; }
+.i-item h2 { font-size: var(--fs-8); margin: 2px 0 10px; }
+.i-item h2 a { color: var(--ink); text-decoration: none; }
+.i-item h2 a:hover { text-decoration: underline; text-underline-offset: 6px; }
+.i-item .rec { display: inline-block; font-size: var(--fs-3); font-weight: var(--fw-2); color: var(--ink); border-bottom: 2px solid var(--ink); margin-left: 10px; vertical-align: middle; }
+.i-item p { color: var(--ink-2); font-size: var(--fs-4); }
+.i-item .open { display: inline-flex; margin-top: 16px; gap: 16px; font-size: var(--fs-4); }
+.i-item .open a { color: var(--ink); font-weight: var(--fw-2); }
+.i-shots { display: grid; grid-template-columns: 1fr 104px; gap: 12px; align-items: end; }
+.i-shots img { width: 100%; display: block; border-radius: var(--r-sm); box-shadow: 0 0 0 1px var(--line); }
+.i-cmp { width: 100%; border-collapse: collapse; margin-top: 56px; font-size: var(--fs-4); }
+.i-cmp caption { text-align: left; font-size: var(--fs-3); font-weight: var(--fw-2); color: var(--ink-3); letter-spacing: .04em; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+.i-cmp th, .i-cmp td { text-align: left; padding: 12px 14px 12px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.i-cmp thead th { color: var(--ink-3); font-size: var(--fs-2); font-weight: var(--fw-2); }
+.i-cmp tbody th { font-weight: var(--fw-2); white-space: nowrap; }
+.i-why { margin-top: 56px; padding-top: 18px; border-top: 2px solid var(--ink); max-width: 760px; }
+.i-why h2 { font-size: var(--fs-7); margin-bottom: 10px; }
+.i-why p { color: var(--ink-2); margin-bottom: 8px; }
+@media (max-width: 1000px) { .i-item { grid-template-columns: 56px 1fr; } .i-shots { grid-column: 1 / -1; } }
+@media (max-width: 640px) {
+  .i-wrap { padding: 36px 16px 64px; }
+  .i-wrap > h1 { font-size: var(--fs-9); }
+  .i-item { grid-template-columns: 1fr; gap: 12px; padding: 28px 0; }
+  .i-item .k { font-size: var(--fs-9); }
+  .i-item h2 { font-size: var(--fs-7); }
+  .i-shots { grid-template-columns: 1fr 72px; }
+  .i-cmp { display: block; overflow-x: auto; white-space: nowrap; }
+}
+</style>
+</head>
+<body>
+<main class="i-wrap">
+  <span class="sx-eyebrow">Office design · 2026-10-08 · 눌러 볼 수 있는 견본</span>
+  <h1>화면 단순화 견본 네 개</h1>
+  <p class="i-lead">지금 화면은 한 번에 보이는 개념이 많고(회차 · 블록 · 등급 · 레벨 · 수치), 같은 일이 세 번 나오고, 둥근 흰 상자 안에 상자가 겹쳐 요즘 AI 서비스 대시보드처럼 보여요. 같은 장면 하나를 네 방향으로 만들었어요. 상자 대신 면 · 선 · 글자 크기 · 여백으로 나눴어요.</p>
+  <p class="i-scene">장면 — 골목커피 · 10월 2주차. 매니저 미나가 메뉴 원가표를 만들어 대표 확인을 기다리고, (가정) 표시 문장을 그대로 써도 될지 묻고 있어요. 리서처 레오는 상권 조사 중, 작가 하나가 쓴 가게 소개 문구는 밖으로 나가는 글이라 '원문 확인 → 승인' 두 단계를 거쳐요(결정 80). 버튼을 누르면 다음 상태로 바뀌어요(고정 데이터, 서버 연결 없음).</p>
+
+  <ol class="i-list">
+    <li class="i-item">
+      <span class="k">A</span>
+      <div><h2><a href="a.html">사무실이 화면 전체</a><span class="rec">추천</span></h2>
+        <p>진짜 3D 사무실이 화면을 꽉 채워요. 대표님이 볼 것은 직원 머리 위 인주색 말풍선뿐이고, 누르면 아래에서 얇은 시트가 올라와 거기서 끝내요. 메뉴는 사무실 · 확인할 것 · 문서 셋.</p>
+        <span class="open"><a href="a.html">열기</a><a href="a.html?theme=dark">어둡게</a></span></div>
+      <div class="i-shots"><img src="shots/a-1440.png" alt="A 1440"><img src="shots/a-390.png" alt="A 390"></div>
+    </li>
+    <li class="i-item">
+      <span class="k">B</span>
+      <div><h2><a href="b.html">매니저와 대화 한 줄</a></h2>
+        <p>메신저처럼 미나와의 대화 하나. 결과물 · 질문 · 승인 요청이 미나의 말 속에 하나씩 들어와요. 위에 접히는 작은 3D 사무실 창, 아래 입력칸.</p>
+        <span class="open"><a href="b.html">열기</a></span></div>
+      <div class="i-shots"><img src="shots/b-1440.png" alt="B 1440"><img src="shots/b-390.png" alt="B 390"></div>
+    </li>
+    <li class="i-item">
+      <span class="k">C</span>
+      <div><h2><a href="c.html">오늘 할 일 하나만</a></h2>
+        <p>열면 '대표님이 지금 할 일' 하나만 크게(1/3). 끝내면 다음 것. 회차 · 블록 · 수치는 숨기고 아래 한 줄 '팀은 지금'만.</p>
+        <span class="open"><a href="c.html">열기</a></span></div>
+      <div class="i-shots"><img src="shots/c-1440.png" alt="C 1440"><img src="shots/c-390.png" alt="C 390"></div>
+    </li>
+    <li class="i-item">
+      <span class="k">D</span>
+      <div><h2><a href="d.html">문서처럼 · 선과 여백</a></h2>
+        <p>지금 구조(왼쪽 메뉴 + 일 화면)는 그대로, 상자를 걷고 선 · 여백 · 큰 글자 목록으로. 같은 일은 한 줄로 한 번만, 탭 · 숫자 카드 없음.</p>
+        <span class="open"><a href="d.html">열기</a></span></div>
+      <div class="i-shots"><img src="shots/d-1440.png" alt="D 1440"><img src="shots/d-390.png" alt="D 390"></div>
+    </li>
+  </ol>
+
+  <table class="i-cmp">
+    <caption>나란히 보기</caption>
+    <thead><tr><th></th><th>A 사무실</th><th>B 대화</th><th>C 오늘 할 일</th><th>D 문서</th></tr></thead>
+    <tbody>
+      <tr><th>메뉴</th><td>3</td><td>0(대화 하나)</td><td>0</td><td>4</td></tr>
+      <tr><th>첫 화면에 보이는 것</th><td>사무실 · 말풍선</td><td>미나의 말</td><td>할 일 하나</td><td>할 일 세 줄 · 팀</td></tr>
+      <tr><th>3D 사무실</th><td>화면 전체(진짜 3D)</td><td>위쪽 접히는 창(진짜 3D)</td><td>링크 뒤</td><td>메뉴 뒤</td></tr>
+      <tr><th>원문 확인 → 승인</th><td>하나의 시트 안</td><td>대화 속</td><td>한 장 안</td><td>펼친 줄 안</td></tr>
+      <tr><th>잘 맞는 사람</th><td>보면서 맡기는 대표</td><td>말로 시키는 대표</td><td>바쁜 대표 · 휴대폰</td><td>지금 쓰는 사람</td></tr>
+      <tr><th>만들기</th><td>중간 — 3D 위 시트 · 말풍선</td><td>중간 — 대화 기록 구조</td><td>쉬움</td><td>가장 쉬움</td></tr>
+    </tbody>
+  </table>
+
+  <section class="i-why">
+    <h2>디자이너 추천 — A, 첫 장으로 C를 얹는 조합까지</h2>
+    <p>A만이 '자라는 3D 사무실'을 장식이 아니라 화면 그 자체로 되돌려요. 결정 86(쉬운 건 앞에서)과 결정 84(컴퓨터에 익숙하지 않은 창업자)에 맞게, 대표님이 배울 것이 '말풍선을 누른다' 하나뿐이에요.</p>
+    <p>B는 익숙하지만 요즘 AI 대화창과 가장 닮아 우리만의 얼굴이 약하고, D는 가장 덜 바꾸지만 3D가 여전히 따로 떨어져 있어요. C는 가장 쉬운데 할 일이 없을 때 화면이 비어요 — 그래서 A의 '확인할 것'을 C처럼 한 장씩 넘기는 방식으로 쓰는 조합을 다음 단계로 제안해요.</p>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>브랜드 시안 A — 종이와 숲</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap">
+<link rel="stylesheet" href="common.css">
+<style>
+:root {
+  --bg: #F5F3EC; --surface: #FFFFFF; --surface-2: #EFECE3; --ink: #232A26; --ink-2: #5F6762; --ink-3: #8F958F; --line: #E3DFD3; --line-2: #D3CEBF;
+  --accent: #3F6B55; --accent-ink: #FFFFFF; --accent-text: #3F6B55;
+  --decide: #2F4F3F; --decide-ink: #FFFFFF; --decide-soft: #E2ECE5; --decide-text: #2F4F3F;
+  --grow: #B8902F; --grow-soft: #F7EDD2; --grow-text: #6E5512;
+  --info: #3E6A8A; --info-soft: #E1EAF0; --info-text: #2D5170;
+  --ok: #4E7A5E; --ok-soft: #E3EEE6; --ok-text: #2F5440;
+  --bad: #B5563A; --bad-soft: #F6E4DB; --bad-text: #8A3F27;
+  --rail-bg: #1F2522; --rail-ink: #E9E6DC; --rail-on-bg: #F5F3EC; --rail-on-ink: #1F2522;
+  --ic-stroke: 1.6; --ic-fill-on: none;
+  --radius: 14px; --radius-sm: 10px; --radius-btn: 10px; --shadow: 0 10px 30px -18px rgba(30, 35, 30, .35);
+  --font-display: "Gowun Batang", serif; --font-ui: "Pretendard Variable", Pretendard, system-ui, sans-serif; --font-num: "Pretendard Variable", Pretendard, sans-serif;
+  --display-weight: 700; --display-track: -.02em;
+  --m-sky: #DDE3D8; --m-ground: #CFC8B6; --m-floor: #D9C3A0; --m-floor-line: rgba(80, 60, 30, .08); --m-wall: #F3EEE4; --m-wall-2: #E7E0D2; --m-glass: #CFDCD8; --m-desk: #B48C64; --m-feature: #3F6B55; --m-trim: #8C9A84;
+}
+.theme-dark {
+  --bg: #1B1F1C; --surface: #242925; --surface-2: #2C322D; --ink: #ECE8DE; --ink-2: #B3B8B0; --ink-3: #848A83; --line: #343A35; --line-2: #444B45;
+  --accent: #7FB096; --accent-ink: #132019; --accent-text: #9CC7AE;
+  --decide: #9CC7AE; --decide-ink: #132019; --decide-soft: #24372C; --decide-text: #A9D3BA;
+  --grow: #D9B357; --grow-soft: #3A3120; --grow-text: #E8C978;
+  --info: #7FA8C8; --info-soft: #1F2C36; --info-text: #A6C6DE;
+  --ok: #8DBB9C; --ok-soft: #22302A; --ok-text: #A9D3BA;
+  --bad: #E08A6C; --bad-soft: #3A251E; --bad-text: #F0A88E;
+  --rail-bg: #141815; --rail-ink: #CFCBC0; --rail-on-bg: #2C322D; --rail-on-ink: #ECE8DE;
+  --shadow: 0 10px 30px -18px rgba(0, 0, 0, .7);
+  --m-sky: #1E2622; --m-ground: #171C19; --m-floor: #5A4A36; --m-floor-line: rgba(255, 230, 180, .06); --m-wall: #3A3E37; --m-wall-2: #32362F; --m-glass: #E8C978; --m-desk: #6B5440; --m-feature: #7FB096; --m-trim: #5E6A57;
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+window.DIR = {
+  id: 'A', en: 'Paper & Forest', name: '종이와 숲',
+  lead: '지금의 결(따뜻한 종이 바탕 · 숲 초록 · 명조 제목)을 지키면서 정리한다. 초록은 행동, 금색은 성장에만. 조용하고 믿음직한 작업실.',
+  words: ['차분한', '믿음직한', '따뜻한', '정돈된'],
+  fonts: '제목 고운바탕 · 본문 · 숫자 Pretendard',
+  iconRule: '1.6px 선, 둥근 끝, 채움 없음',
+  colorRule: '<b>초록 하나</b>가 행동과 결정을 함께 맡는다. 금색은 실적 자원 · 레벨 · 잠금 안내에만. 이모지 아이콘은 쓰지 않는다.',
+  mascots: [{ c: '#C0654A', h: '#C9A23C' }, { c: '#5D7C8F', h: '#C9A23C' }, { c: '#8A9A5B', h: '#D8D2C2' }],
+  oneLook: '<b>3D는 나무 · 회벽 · 무광 재질</b>로 종이 바탕과 맞춘다. 기능 시설(결재함 · 회차 보드)만 숲 초록 재질. 떠 있는 이름표 · 카드는 2D와 같은 면 색 · 모서리 · 글꼴. 마스코트는 채도를 한 단계 낮춘 흙색 계열.',
+  dark: '따뜻한 숯색 바탕. 밤 시간대엔 창이 금빛으로 켜지고 바닥은 어두운 나무. 결정 · 행동 초록은 밝은 세이지로 바꾼다.',
+  pros: ['지금 코드와 가장 가까워 바꾸는 비용이 가장 적다(토큰 이름 정리 + 이모지 교체 중심).', '차분하고 문서 · 표를 오래 읽기 좋다 — 결과물 확인 화면에 잘 맞는다.', '창업 초기의 불안을 낮추는 따뜻한 인상.'],
+  cons: ['대담한 3D 마스코트(결정 64 · 메모)와 결이 어긋난다 — 마스코트 채도를 낮추면 개성이, 그대로 두면 화면과 따로 논다.', '명조 제목 + 종이 바탕이 노트 앱 · 문학적 인상 — "자라는 회사 · 게임" 에너지가 약하다.', '초록이 행동 · 결정 · 끝을 함께 맡아 상태 구분이 약하다.'],
+};
+</script>
+<script src="sample.js"></script>
+</body>
+</html>
